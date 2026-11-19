@@ -440,7 +440,7 @@ textarea{min-height:70px;resize:vertical}
 
 <script>
 /* ========= ضعي هنا رابط Google Apps Script بعد النشر ========= */
-const GUESTBOOK_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+const GUESTBOOK_URL = "https://script.google.com/macros/s/AKfycbwBAlM-rIINCFpAlhEsTFZODFy51WBKGZzx-xAI7WyUkO8dT8KvWSYYxhKgjYj8ry9dWQ/exec";
 /* ============================================================ */
 
 const $ = s => document.querySelector(s);
@@ -1019,6 +1019,22 @@ PAGES.phones=(p)=>{
 
 /* ---------- guestbook ---------- */
 const configured=GUESTBOOK_URL.startsWith("https://");
+const PAST=[
+  ["~*¤ نـوري ¤*~","😎",n=>`هلااا ${n}!! وصلتني رسالتك… بس النت عندي 56k، بأرد عليك 2009 إن شاء الله 😂`],
+  ["¤ أبو نـواف ¤","🦅",n=>`يعطيك العافية يا ${n} 🌹 رسالتك انحفظت في المنتدى… وتم تقييمك ⭐⭐⭐⭐⭐`],
+  ["مشرف القسم","🛡️",n=>`تم استلام رسالتك يا ${n} ✅ وتم نقلها للقسم المناسب: «ذكريات ما تنتسى» 💾`],
+  ["~*عاشقة الورد*~","🌹",n=>`ღ ${n} ღ رسالتك حلوة مرة، نسختها وحطيتها رسالة شخصية بالماسنجر 💔✨`],
+  ["سـلـطـان الـقـلـوب","👑",n=>`${n} أرسلت رسالتك لـ 10 أشخاص مثل ما تقول السلسلة… الحين بتسمع خبر حلو الليلة 🌙`],
+  ["جهاز_أبو_فهد","📲",n=>`📶 تم استلام رسالة ${n} عن طريق البلوتوث… 100%! أول مرة بالتاريخ ما تفشل عند 99% 😭`],
+];
+function pastReply(name){
+  const [who,av,fn]=rand(PAST);
+  const body=el("div",{style:"display:grid;gap:10px"},
+    el("div",{style:"display:flex;gap:10px;align-items:center"},el("div",{style:"font-size:34px;width:52px;height:52px;display:grid;place-items:center;background:#fff;border:2px solid #6a9;border-radius:6px","aria-hidden":"true",text:av}),el("div",{},el("b",{text:who}),el("div",{class:"note",text:"أرسل لك رسالة من سنة 2008 📼"}))),
+    el("div",{style:"background:#fff;border:1px solid #9fb6d6;padding:10px;border-radius:4px;line-height:1.8",text:fn(name)}),
+    el("div",{class:"note",text:"رسالتك وصلت لصاحبة الموقع 💌 وانحفظت في الكبسولة الزمنية."}));
+  setTimeout(()=>{ const d=dialog("📨 وصلتك رسالة من الماضي!",body,[["😂 رد",()=>{ openApp("msn"); }],["إغلاق"]]); d.classList.add("shake"); sfx.nudge(); setTimeout(sfx.msg,500); },700);
+}
 PAGES.guest=(p)=>{
   const st=el("div",{class:"msg",role:"status"});
   const nm=el("input",{id:"gb-name",maxlength:"40",placeholder:"مثلاً: ~*عاشقة الذكريات*~",autocomplete:"nickname",value:myName==="أنا"?"":myName});
@@ -1043,10 +1059,10 @@ PAGES.guest=(p)=>{
     const name=nm.value.trim(), message=ms.value.trim();
     if(!name){ st.className="msg err"; st.textContent="اكتب اسمك المستعار أول 🙂 (أو زخرفه من «مزخرف الأسماء»)"; nm.focus(); return; }
     if(!message){ st.className="msg err"; st.textContent="اكتب رسالة قبل لا ترسل ✍"; ms.focus(); return; }
-    if(!configured){ const l=localList(); l.unshift({name,message,time:new Date().toISOString()}); localSet("gb",JSON.stringify(l.slice(0,50))); st.className="msg ok"; st.textContent="تم! توقيعك صار في السجل 🌹"; ms.value=""; renderList(l); return; }
+    if(!configured){ const l=localList(); l.unshift({name,message,time:new Date().toISOString()}); localSet("gb",JSON.stringify(l.slice(0,50))); st.className="msg ok"; st.textContent="تم! توقيعك صار في السجل 🌹"; ms.value=""; renderList(l); pastReply(name); return; }
     btn.disabled=true; st.className="msg"; st.textContent="جاري الإرسال…";
     try{ const out=await (await fetch(GUESTBOOK_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({name,message,hp:hp.value})})).json();
-      if(!out.ok) throw 0; st.className="msg ok"; st.textContent="تم! توقيعك صار في السجل 🌹"; ms.value=""; toast("سجل الزوار",name+" وقّع في السجل"); load();
+      if(!out.ok) throw 0; st.className="msg ok"; st.textContent="تم! توقيعك صار في السجل 🌹"; ms.value=""; load(); pastReply(name);
     }catch(err){ st.className="msg err"; st.textContent="ما وصل التوقيع. رسالتك ما زالت مكتوبة، تأكد من الإنترنت واضغط إرسال مرة ثانية."; }
     btn.disabled=false;
   });
