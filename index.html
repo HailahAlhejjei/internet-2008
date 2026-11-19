@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>إنترنتنا القديم 2008</title>
+<meta name="description" content="The internet we grew up with — ادخل الإنترنت كأنك في 2008">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* Concept: you sit at a 2008 PC. Dial-up, a hill-and-sky wallpaper, icons down the right edge, and every "website" does something to you. */
+:root{
+  --sky1:#2f7fdc; --sky2:#a9d4ff; --hill1:#5dae3b; --hill2:#2f7a1f;
+  --t1:#2a6fdb; --t2:#0b3fa8; --win:#ece9d8; --ink:#1a1a1a; --muted:#4f4f4f;
+  --link:#0033cc; --hot:#a83a0f; --ok:#2c7a20; --bad:#b00000;
+  --font:"Tajawal",Tahoma,Arial,sans-serif;
+  --vh:100dvh;
+}
+@supports not (height:100dvh){:root{--vh:100vh}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:var(--font);color:var(--ink);overflow:hidden;font-size:15px;
+  background:
+    radial-gradient(ellipse 120% 55% at 30% 105%,var(--hill1) 0 60%,transparent 61%),
+    radial-gradient(ellipse 90% 45% at 90% 110%,#4c9c2e 0 60%,transparent 61%),
+    radial-gradient(ellipse 18% 6% at 22% 22%,rgba(255,255,255,.85),transparent 70%),
+    radial-gradient(ellipse 14% 5% at 70% 14%,rgba(255,255,255,.7),transparent 70%),
+    linear-gradient(var(--sky1),var(--sky2) 70%,var(--hill2));}
+button{font-family:inherit}
+a{color:var(--link)}
+::selection{background:#316ac5;color:#fff}
+:focus-visible{outline:2px dotted #000;outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* boot */
+#boot{position:fixed;inset:0;background:#000;color:#ddd;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:999;text-align:center;padding:16px}
+#boot h1{margin:0;font-size:clamp(34px,8vw,60px);color:#fff;font-weight:900}
+#boot h1 span{color:#ffb400}
+#boot p{margin:0;font-size:18px}
+#boot .go{font-size:20px;font-weight:900;padding:12px 30px;border:2px outset #ccc;background:linear-gradient(#fff,#ccc);cursor:pointer;color:#000}
+#dial{display:none;flex-direction:column;align-items:center;gap:10px;background:var(--win);color:var(--ink);border:3px solid var(--t2);padding:18px;width:min(360px,100%);border-radius:6px}
+#dial .pc{font-size:34px;letter-spacing:6px;direction:ltr}
+#dial .pc i{display:inline-block;animation:pulse .6s infinite alternate;font-style:normal}
+@keyframes pulse{to{opacity:.2}}
+#dial .meter{width:100%;height:16px;border:1px solid #888;background:#fff;padding:2px}
+#dial .meter b{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,#3c9a2e 0 10px,transparent 10px 12px);transition:width 1.4s linear}
+#boot small{color:#aaa}
+
+/* desktop: icons run down the right edge, like a real XP desktop in Arabic */
+.desktop{height:calc(var(--vh) - 42px);padding:12px;display:grid;grid-auto-flow:column;grid-template-rows:repeat(auto-fill,92px);grid-auto-columns:88px;gap:6px;align-content:start;justify-content:start}
+.icon{background:none;border:0;color:#fff;font-size:13px;line-height:1.3;text-align:center;cursor:pointer;padding:4px;border-radius:3px;display:flex;flex-direction:column;align-items:center;gap:4px;text-shadow:1px 1px 2px #000,0 0 3px #000}
+.icon:hover,.icon:focus-visible{background:rgba(49,106,197,.55);outline:1px dotted #fff}
+.icon .g{width:46px;height:46px;border-radius:9px;display:grid;place-items:center;font-size:24px;font-weight:900;color:#fff;text-shadow:none;box-shadow:inset 0 -4px 0 rgba(0,0,0,.25),0 2px 4px rgba(0,0,0,.45)}
+
+/* windows */
+.win{position:fixed;top:12px;left:12px;width:min(840px,calc(100vw - 130px));height:min(640px,calc(var(--vh) - 70px));background:var(--win);border:3px solid var(--t2);border-radius:8px 8px 4px 4px;box-shadow:3px 6px 20px rgba(0,0,0,.5);display:flex;flex-direction:column;z-index:10}
+#w-msn{left:auto;right:110px;top:40px;width:min(380px,calc(100vw - 130px));height:min(540px,calc(var(--vh) - 90px))}
+#w-player{left:60px;top:50px;width:min(640px,calc(100vw - 130px));height:min(440px,calc(var(--vh) - 110px))}
+.win[hidden]{display:none}
+.tb{background:linear-gradient(180deg,#4b8af0,var(--t1) 40%,var(--t2));color:#fff;font-weight:700;padding:5px 8px;display:flex;align-items:center;justify-content:space-between;gap:8px;border-radius:4px 4px 0 0;cursor:move;user-select:none;text-shadow:1px 1px 1px #00246b;touch-action:none}
+.tb span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.tb button{width:26px;height:24px;border:1px solid #fff;border-radius:4px;background:linear-gradient(#e86b4a,#c0381a);color:#fff;font-weight:900;cursor:pointer;line-height:1;flex:none}
+.shake{animation:shake .5s}
+@keyframes shake{20%{translate:-14px 0}40%{translate:14px 0}60%{translate:-10px 0}80%{translate:10px 0}}
+
+/* browser chrome */
+.nav{display:flex;gap:5px;align-items:center;padding:4px 8px;background:#f6f5ef;border-bottom:1px solid #b9b6a6;font-size:12px;position:relative}
+.nav button{border:1px solid #8a8;background:linear-gradient(#fff,#ddd);border-radius:12px;min-width:30px;height:26px;cursor:pointer;font-size:13px}
+.nav button:disabled{opacity:.4;cursor:default}
+.nav .menu{border-radius:3px;padding:0 8px}
+.nav input{flex:1;min-width:0;border:1px solid #7f9db9;padding:3px 6px;direction:ltr;font-family:Tahoma,var(--font);font-size:12px;height:26px}
+.encmenu{position:absolute;top:32px;left:8px;background:#fff;border:1px solid #888;box-shadow:2px 2px 6px rgba(0,0,0,.35);z-index:5;display:grid;min-width:200px}
+.encmenu button{border:0;border-radius:0;background:none;text-align:right;padding:6px 12px;height:auto}
+.encmenu button:hover{background:#316ac5;color:#fff}
+.links{display:flex;gap:2px;padding:3px 8px;background:#f0efe6;border-bottom:1px solid #ccc;font-size:12px;overflow-x:auto;white-space:nowrap;scrollbar-width:thin}
+.links button{border:0;background:none;cursor:pointer;color:#0033cc;font-size:12.5px;padding:3px 7px;border-radius:2px}
+.links button:hover,.links button.on{background:#dde6f7}
+.page{flex:1;overflow:auto;background:#fff;min-height:0;position:relative}
+.status{font-size:12px;padding:3px 8px;background:#f6f5ef;border-top:1px solid #b9b6a6;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.loadbar{height:3px;background:linear-gradient(90deg,#3c9a2e,#8f8);width:0;transition:width .7s}
+
+/* shared */
+.btn{font-weight:700;font-size:14px;padding:6px 14px;border:2px outset #ccc;background:linear-gradient(#fff,#ddd);cursor:pointer;color:#000;min-height:34px}
+.btn:active{border-style:inset}
+.btn:disabled{opacity:.55;cursor:default}
+.note{font-size:13px;color:var(--muted)}
+.msg{font-weight:700}.msg.ok{color:var(--ok)}.msg.err{color:var(--bad)}
+h2.pt{margin:0 0 4px;font-size:21px}
+.center{text-align:center}
+
+/* search home */
+.home{display:flex;flex-direction:column;align-items:center;gap:14px;padding:46px 16px}
+.logo{font-size:clamp(42px,10vw,68px);font-weight:900;font-family:Georgia,var(--font);line-height:1}
+.logo b:nth-child(1){color:#1a5adf}.logo b:nth-child(2){color:#d0201a}.logo b:nth-child(3){color:#c98a00}.logo b:nth-child(4){color:#2e8b33}
+.sbox{display:flex;gap:6px;width:min(500px,100%);flex-wrap:wrap;justify-content:center}
+.sbox input{flex:1;min-width:200px;padding:7px;font-size:16px;border:1px solid #888;font-family:inherit}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:540px}
+.chips button{border:1px solid #c5d3ea;background:#f3f7ff;color:var(--link);border-radius:14px;padding:4px 12px;cursor:pointer;font-size:13px}
+.results{padding:16px 24px;max-width:660px;display:grid;gap:18px}
+.res button{all:unset;font-size:17px;cursor:pointer;text-decoration:underline;color:var(--link)}
+.res button:focus-visible{outline:2px dotted #000}
+.res .u{color:#1a6b1a;font-size:13px;direction:ltr;text-align:right}
+.res p{margin:2px 0;font-size:14px}
+
+/* blocked page */
+.blocked{min-height:100%;background:#fff;display:flex;align-items:center;justify-content:center;padding:24px}
+.blocked .box{border:3px solid #9b1c1c;max-width:520px;text-align:center;padding:24px;display:grid;gap:10px;background:#fff7f7}
+.blocked .stop{width:70px;height:70px;margin:0 auto;background:#c0262c;color:#fff;font-weight:900;display:grid;place-items:center;clip-path:polygon(30% 0,70% 0,100% 30%,100% 70%,70% 100%,30% 100%,0 70%,0 30%);font-size:15px}
+.blocked h2{margin:0;color:#9b1c1c}
+
+/* forum */
+.fhead{background:linear-gradient(#0d3c6e,#195a9e);color:#fff;padding:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.fhead h2{margin:0;font-size:22px}
+.marquee{overflow:hidden;white-space:nowrap;background:#000;color:#ffde00;padding:5px 0;font-weight:700}
+.marquee b{display:inline-block;padding-inline-start:100%;animation:mq 22s linear infinite}
+.marquee:hover b,.marquee:focus-within b,.marquee:focus b{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(100%)}}
+.online{font-size:12px;padding:6px 12px;background:#f2f6fc;border-bottom:1px solid #cdd9ea}
+.fwrap{padding:12px;display:grid;gap:12px}
+.post{border:1px solid #9fb6d6;display:grid;grid-template-columns:130px 1fr}
+.post .who{background:#e3ecf8;padding:10px;font-size:12px;text-align:center;border-left:1px solid #9fb6d6}
+.post .who b{display:block;font-size:14px;color:var(--t2)}
+.post .av{width:54px;height:54px;margin:6px auto;border-radius:4px;display:grid;place-items:center;font-size:28px;background:#fff;border:1px solid #aaa}
+.post .rank{color:var(--hot);font-weight:700}
+.post .txt{padding:10px;line-height:1.8;min-width:0;overflow-wrap:anywhere}
+.post .sig{margin-top:10px;padding-top:6px;border-top:1px dashed #aaa;font-size:13px;color:#6a1f8a;text-align:center}
+.post .bar{display:flex;gap:8px;align-items:center;margin-top:8px;font-size:12px;color:var(--muted)}
+.flink{all:unset;cursor:pointer;color:#0033cc;text-decoration:underline;font-family:Tahoma,monospace;direction:ltr;display:block;text-align:left;overflow-wrap:anywhere}
+.flink:focus-visible{outline:2px dotted #000}
+.locked{filter:blur(4px);user-select:none;pointer-events:none}
+.blink{animation:bl 1s steps(2) 6;color:var(--bad);font-weight:900}
+@keyframes bl{50%{opacity:0}}
+.flash{animation:flash 1.2s 2}
+@keyframes flash{50%{background:#fff3a0}}
+.qr{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:10px;border:1px solid #9fb6d6;background:#f2f6fc}
+
+/* rapidshare */
+.rs{padding:24px;display:grid;gap:14px;justify-items:center;text-align:center;background:linear-gradient(#fff,#e8f0ff);min-height:100%}
+.rs .logo2{font-family:Georgia,serif;font-size:34px;color:#b8262b;font-weight:900;direction:ltr}
+.rs .count{font-size:52px;font-weight:900;color:var(--t2);font-variant-numeric:tabular-nums}
+.rs .plans{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.rs .plan{border:2px solid #9fb6d6;padding:14px;width:200px;background:#fff;display:grid;gap:8px}
+
+/* blog */
+.blog{background:#000;color:#7CFC00;min-height:100%;padding:20px;font-family:Tahoma,var(--font)}
+.blog h2{color:#ff66cc;margin:0 0 6px;text-align:center}
+.blog article{max-width:620px;margin:16px auto;border:1px dashed #7CFC00;padding:14px;line-height:1.9;white-space:pre-line;overflow-wrap:anywhere}
+.blog .warn{background:#ffffe1;color:#000;border:1px solid #000;padding:8px 10px;font-size:13px;max-width:620px;margin:0 auto}
+
+/* hotmail */
+.mail{display:grid;grid-template-columns:minmax(220px,300px) 1fr;min-height:100%}
+.mail .side{border-left:1px solid #c5d3ea;background:#f3f7ff;min-width:0}
+.mail .hd{background:linear-gradient(#4f86d4,#1f50a3);color:#fff;padding:10px 12px;font-weight:900;font-size:18px}
+.mail .item{all:unset;display:block;width:100%;box-sizing:border-box;padding:9px 12px;border-bottom:1px solid #dbe4f3;cursor:pointer;font-size:13px}
+.mail .item b{display:block;font-size:14px;color:#000;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.mail .item.unread b::before{content:"● ";color:#1f50a3}
+.mail .item:hover,.mail .item.on{background:#dfe9fb}
+.mail .item:focus-visible{outline:2px dotted #000}
+.mail .read{padding:18px;line-height:1.9;min-width:0;overflow-wrap:anywhere}
+.mail .read h3{margin:0 0 4px}
+.mail .att{display:inline-flex;gap:6px;align-items:center;border:1px solid #aaa;background:#fafafa;padding:6px 10px;cursor:pointer;margin-top:8px;font-family:inherit;font-size:14px}
+
+/* name decorator */
+.zk{padding:16px;display:grid;gap:16px;background:#fdf6ff;min-height:100%}
+.zk h2{margin:0;color:#5a1fb0;text-align:center;font-family:"Comic Sans MS","Tajawal",var(--font)}
+.zk section{background:#fff;border:2px dashed #b48ae6;padding:12px;display:grid;gap:10px}
+.zk h3{margin:0;font-size:17px;color:#3d1580}
+.zk .inrow{display:flex;gap:6px;flex-wrap:wrap}
+.zk .inrow input{flex:1;min-width:180px;padding:8px;font-size:17px;font-family:inherit;border:1px solid #7f9db9}
+.zrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap;border-bottom:1px dotted #d7c3f2;padding:6px 0}
+.zrow output{flex:1;min-width:0;font-size:18px;font-weight:700;color:#6a1f8a;overflow-wrap:anywhere;user-select:all}
+.zrow .btn{font-size:12px;padding:3px 8px;min-height:30px}
+.psmout{font-size:18px;font-style:italic;color:#333;background:#eef4ff;border:1px solid #c5d3ea;padding:10px;border-radius:4px;min-height:48px}
+.sigbox{border:1px solid #9fb6d6;background:#fff;padding:12px;text-align:center;color:#6a1f8a;line-height:1.9;font-size:15px}
+.drama{height:22px;border:1px solid #888;background:#fff;padding:2px;position:relative}
+.drama b{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffd000,#ff5a00,#c00);transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+
+/* messenger */
+.msn{display:flex;flex-direction:column;height:100%;background:linear-gradient(#dbe8fb,#fff);min-height:0}
+.msn .me{padding:10px;display:flex;gap:10px;align-items:center;border-bottom:1px solid #9fb6d6}
+.msn .pic{width:48px;height:48px;border:2px solid #6a9;border-radius:6px;display:grid;place-items:center;font-size:26px;background:#fff;flex:none}
+.msn .name{font-weight:900;color:var(--t2)}
+.msn .psm{font-size:12px;color:#555;font-style:italic}
+.contacts{display:flex;gap:4px;padding:6px 8px;overflow-x:auto;border-bottom:1px solid #c5d3ea;background:#f3f7ff}
+.contacts button{border:1px solid #c5d3ea;background:#fff;border-radius:12px;padding:3px 9px;font-size:12px;cursor:pointer;white-space:nowrap}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-inline-end:4px;vertical-align:middle}
+.chat{flex:1;overflow:auto;padding:10px;display:flex;flex-direction:column;gap:6px;font-size:14px;background:#fff;min-height:0}
+.chat .l b{color:#6a1f8a}.chat .l.mine b{color:#0b3fa8}
+.chat .sys{color:#666;font-size:12px;text-align:center}
+.chat .nudge{color:var(--bad);font-weight:700;text-align:center}
+.typing{font-size:12px;color:#666;padding:0 10px;min-height:18px}
+.msnbar{display:flex;gap:6px;padding:8px;border-top:1px solid #9fb6d6;flex-wrap:wrap}
+.msnbar input{flex:1;min-width:120px;padding:6px;border:1px solid #7f9db9;font-family:inherit;font-size:14px}
+
+/* games */
+.games{padding:16px;display:grid;gap:14px}
+.gtabs{display:flex;gap:6px;flex-wrap:wrap}
+.gtabs button.on{border-style:inset;background:#cde}
+.snakewrap{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap}
+.nokia{background:#9db88a;border:10px solid #333;border-radius:14px;padding:8px;width:min(300px,100%);display:flex;flex-direction:column;gap:6px;position:relative}
+.nokia canvas{width:100%;aspect-ratio:1;image-rendering:pixelated;background:#9db88a;display:block}
+.nokia .sc{font-family:Tahoma,monospace;color:#1c2b12;display:flex;justify-content:space-between;font-weight:700;font-variant-numeric:tabular-nums}
+.nokia .ov{position:absolute;inset:38px 8px 8px;display:grid;place-items:center;text-align:center;color:#1c2b12;font-weight:900;background:rgba(157,184,138,.85);font-size:16px;line-height:1.7}
+.pad{display:grid;grid-template-columns:repeat(3,58px);gap:6px;justify-content:center;touch-action:manipulation}
+.pad button{height:50px;border-radius:12px;border:2px outset #aaa;background:#ddd;font-size:18px;cursor:pointer}
+.arena{position:relative;height:340px;border:2px inset #ccc;background:#3a6ea5;overflow:hidden}
+.arena .intro{color:#fff;padding:20px;line-height:2}
+.pop{position:absolute;width:min(190px,62%);background:var(--win);border:2px solid var(--t2);box-shadow:2px 3px 6px rgba(0,0,0,.6);font-size:13px}
+.pop .pt{background:linear-gradient(#4b8af0,var(--t2));color:#fff;padding:3px 4px 3px 8px;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.pop .pt button{background:#c0381a;color:#fff;border:1px solid #fff;cursor:pointer;width:32px;height:28px;line-height:1;padding:0;font-size:16px;border-radius:3px}
+.pop .pb{padding:8px;text-align:center;font-weight:700}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:360px;margin:0 auto;width:100%}
+.mem button{aspect-ratio:1;font-size:30px;border:2px outset #ccc;background:linear-gradient(#3f86ee,#1546b8);cursor:pointer;color:transparent}
+.mem button.open{background:#fff;color:inherit;border-style:inset}
+
+/* keek */
+.kk{background:#111;color:#fff;height:100%;display:flex;flex-direction:column}
+.kk header{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;background:#1a1a1a;border-bottom:1px solid #333}
+.kk header b{font-size:22px;color:#4ad94a;font-family:Georgia,var(--font)}
+.feed{flex:1;overflow-y:auto;scroll-snap-type:y mandatory;min-height:0;display:flex;flex-direction:column;align-items:center;background:#000}
+.clip{scroll-snap-align:start;flex:none;height:100%;min-height:420px;width:min(100%,380px);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.clip::after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.85));pointer-events:none}
+.clip .scene{font-size:84px;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-12px) rotate(-4deg)}}
+.clip .cap{position:absolute;bottom:64px;right:14px;left:68px;font-size:16px;font-weight:700;line-height:1.6;z-index:1;text-shadow:0 1px 2px #000}
+.clip .user{position:absolute;bottom:36px;right:14px;font-size:13px;z-index:1;color:#eee}
+.clip .side{position:absolute;left:10px;bottom:56px;display:flex;flex-direction:column;gap:10px;align-items:center;z-index:2}
+.clip .side button{background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:50%;width:46px;height:46px;font-size:20px;cursor:pointer}
+.clip .side span{font-size:12px;font-variant-numeric:tabular-nums;text-shadow:0 1px 2px #000}
+.clip .timer{position:absolute;top:10px;right:12px;font-size:12px;background:rgba(0,0,0,.65);padding:2px 8px;border-radius:10px;font-variant-numeric:tabular-nums;z-index:1}
+.clip .timer .rec{color:#ff6b6b}
+.cmts{position:absolute;inset:auto 0 0;background:#1d1d1d;z-index:3;max-height:62%;display:flex;flex-direction:column;border-top:1px solid #444}
+.cmts .list{overflow:auto;padding:10px;display:grid;gap:6px;font-size:14px}
+.cmts form{display:flex;gap:6px;padding:8px;border-top:1px solid #333}
+.cmts input{flex:1;min-width:0;padding:6px;font-family:inherit;font-size:14px}
+
+/* memes */
+.memes{padding:16px;display:grid;gap:18px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.rage{border:2px solid #000;background:#fff;font-family:"Comic Sans MS","Tajawal",var(--font)}
+.rage .p{padding:10px;border-bottom:2px solid #000;min-height:74px;display:flex;align-items:center;gap:10px;font-size:14px}
+.rage .p:last-child{border-bottom:0}
+.rage .face{font-size:36px}
+.vid{border:1px solid #ccc;background:#f8f8f8;display:flex;flex-direction:column;min-width:0}
+.vid .th{all:unset;cursor:pointer;height:130px;display:block;position:relative;background:#222 center/cover no-repeat}
+.vid .th::after{content:"▶";position:absolute;inset:0;margin:auto;color:#fff;font-size:26px;background:rgba(0,0,0,.65);width:58px;height:40px;border-radius:10px;display:grid;place-items:center}
+.vid .th:focus-visible{outline:3px solid #ffb400;outline-offset:-3px}
+.vid .th i{position:absolute;bottom:4px;left:6px;font-style:normal;font-size:11px;background:#000;color:#fff;padding:0 4px;font-variant-numeric:tabular-nums}
+.vid .t{padding:8px 8px 4px;font-size:14px;font-weight:700}
+.vid .t small{display:block;font-weight:400;color:var(--muted)}
+.vid .row{display:flex;gap:6px;padding:4px 8px 10px;flex-wrap:wrap}
+.vid .row .btn{font-size:12px;padding:3px 8px;min-height:30px}
+.bbm{background:#202020;color:#eee;padding:12px;border-radius:6px;font-size:14px;line-height:1.8;display:grid;gap:8px}
+.bbm p{margin:0;background:#333;padding:6px 10px;border-radius:8px}
+.bbm .pin{font-family:Tahoma,monospace;color:#8cf;direction:ltr;display:inline-block}
+
+/* phones */
+.phones{padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.ph{border:2px outset #ddd;background:#fafafa;padding:12px;text-align:center;display:grid;gap:8px;align-content:start}
+.ph .y{justify-self:center;font-size:12px;color:#fff;background:var(--t2);padding:1px 8px;border-radius:3px}
+.ph h3{margin:0;font-size:16px}
+.ph p{margin:0;font-size:13px}
+.ph .say{font-size:13px;color:var(--hot);font-weight:700;min-height:20px}
+.ph .btns{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.dev{width:84px;height:140px;margin:0 auto;border-radius:16px;background:linear-gradient(#5a5a5a,#222);border:2px solid #111;position:relative}
+.dev::before{content:"";position:absolute;top:12px;left:10px;right:10px;height:46px;background:linear-gradient(#a8dcff,#3a7bc8);border-radius:3px}
+.dev.nk::after{content:"";position:absolute;bottom:10px;left:14px;right:14px;height:56px;background:radial-gradient(circle,#bbb 3px,transparent 4px) 0 0/14px 14px}
+.dev.bb::after{content:"";position:absolute;bottom:10px;left:8px;right:8px;height:56px;background:repeating-linear-gradient(90deg,#999 0 7px,#333 7px 9px);border-radius:3px}
+.dev.ip{background:#111}.dev.ip::before{height:104px}
+.dev.ip::after{content:"";position:absolute;bottom:8px;left:50%;width:14px;height:14px;margin-left:-7px;border:2px solid #777;border-radius:50%}
+.dev.se{background:linear-gradient(#e8e8e8,#9a9a9a)}.dev.se::after{content:"";position:absolute;bottom:12px;left:50%;width:34px;height:34px;margin-left:-17px;border-radius:50%;background:radial-gradient(circle,#f60 30%,#333 32%)}
+.slide{width:100%}
+.bbchat{background:#202020;color:#eee;border-radius:6px;padding:8px;font-size:13px;text-align:right;min-height:58px;display:grid;gap:4px}
+.bbchat span{font-family:Tahoma;font-weight:900;color:#8cf}
+
+/* guestbook */
+.gb{padding:16px;display:grid;gap:12px;background:#fff8fd;min-height:100%}
+.gb h2{margin:0;color:#a81f6a;text-align:center;font-family:"Comic Sans MS","Tajawal",var(--font)}
+.gb form{display:grid;gap:8px;background:#fff;border:2px dashed #d77aae;padding:12px}
+label{font-weight:700;font-size:14px}
+.gb input,.gb textarea{font-family:inherit;font-size:15px;padding:6px;border:1px solid #7f9db9;width:100%}
+textarea{min-height:70px;resize:vertical}
+.entries{display:grid;gap:10px}
+.entry{border:1px solid #d77aae;background:#fff}
+.entry .h{background:#fde6f3;padding:4px 8px;font-size:13px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.entry .m{padding:8px;white-space:pre-wrap;overflow-wrap:anywhere}
+.counter{text-align:center;font-family:Tahoma,monospace;font-size:13px}
+.counter span{background:#000;color:#0f0;padding:1px 4px;letter-spacing:2px;font-variant-numeric:tabular-nums}
+
+/* player */
+#w-player .scr{flex:1;background:#000;min-height:0;display:flex;position:relative}
+#w-player iframe{flex:1;border:0;width:100%}
+.buffer{position:absolute;inset:0;display:grid;place-items:center;align-content:center;gap:10px;color:#ccc;font-size:14px;text-align:center;padding:16px}
+.buffer .ring{width:44px;height:44px;border-radius:50%;border:5px solid #333;border-top-color:#ddd;animation:spin .8s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.buffer .bar{width:min(260px,80%);height:6px;background:#333;margin:0 auto}
+.buffer .bar b{display:block;height:100%;width:0;background:#c00;transition:width .3s}
+#w-player .ctl{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 10px;background:linear-gradient(#444,#111);color:#ccc;font-size:12px}
+#w-player .ctl button{background:#333;color:#eee;border:1px solid #666;border-radius:3px;padding:3px 10px;cursor:pointer}
+
+/* overlays */
+.dlg{position:fixed;z-index:600;width:min(330px,calc(100vw - 24px));background:var(--win);border:3px solid var(--t2);border-radius:6px 6px 3px 3px;box-shadow:3px 6px 18px rgba(0,0,0,.55);left:50%;top:30%;translate:-50% 0}
+.dlg .pb{padding:14px;display:grid;gap:10px;line-height:1.7}
+.dlg .row{display:flex;gap:8px;justify-content:flex-start;flex-wrap:wrap}
+.prog{height:18px;border:1px solid #888;background:#fff;padding:2px}
+.prog b{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,#3c9a2e 0 10px,transparent 10px 12px)}
+.adpop{position:fixed;z-index:500;width:min(280px,calc(100vw - 24px));background:var(--win);border:3px solid #b00;box-shadow:3px 4px 10px rgba(0,0,0,.6)}
+.adpop .pt{background:linear-gradient(#e33,#900);color:#fff;padding:4px 8px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px}
+.adpop .pt button{background:#fff;color:#900;border:0;width:30px;height:26px;cursor:pointer;font-weight:900;font-size:16px}
+.adpop .pb{all:unset;display:block;box-sizing:border-box;width:100%;padding:14px;text-align:center;font-weight:900;font-size:18px;background:linear-gradient(135deg,#ffef3a,#ffc400);color:#000;cursor:pointer}
+.adpop .pb:focus-visible{outline:2px dotted #000;outline-offset:-4px}
+.adpop .pb small{display:block;font-size:12px;font-weight:400;margin-top:6px}
+#bsod{position:fixed;inset:0;background:#0000aa;color:#fff;font-family:"Lucida Console","Courier New",monospace;z-index:900;padding:6vh 6vw;direction:ltr;text-align:left;font-size:clamp(12px,2vw,17px);line-height:1.6;cursor:pointer}
+#bsod p{margin:0 0 1em;max-width:70ch}
+#bsod .ar{direction:rtl;text-align:right;font-family:var(--font);background:#fff;color:#0000aa;display:inline-block;padding:4px 10px;font-weight:900}
+.startmenu{position:fixed;bottom:42px;right:0;width:min(320px,100vw);background:#fff;border:2px solid var(--t2);border-radius:8px 8px 0 0;z-index:450;box-shadow:3px -3px 14px rgba(0,0,0,.45);overflow:hidden}
+.startmenu .u{background:linear-gradient(#1e5fd8,#3f8cf3);color:#fff;padding:12px;font-weight:900;display:flex;gap:10px;align-items:center;font-size:16px;text-shadow:1px 1px 1px #00246b}
+.startmenu .u span{width:42px;height:42px;border:2px solid #fff;border-radius:5px;display:grid;place-items:center;background:#fff;font-size:24px;text-shadow:none}
+.startmenu .items{display:grid;padding:6px;max-height:calc(var(--vh) - 200px);overflow:auto}
+.startmenu .items button{border:0;background:none;text-align:right;padding:8px 10px;cursor:pointer;font-size:14px;border-radius:3px}
+.startmenu .items button:hover,.startmenu .items button:focus-visible{background:#316ac5;color:#fff}
+.startmenu .foot{background:linear-gradient(#3f8cf3,#1e5fd8);padding:8px;display:flex;justify-content:flex-start;gap:8px}
+.startmenu .foot button{background:#c23e14;color:#fff;border:1px solid #fff;border-radius:4px;padding:5px 12px;font-weight:700;cursor:pointer}
+#bye{position:fixed;inset:0;z-index:950;background:linear-gradient(#0b3fa8,#1f5fc4);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px;text-align:center;overflow:auto}
+#bye ul{list-style:none;padding:0;margin:0;display:grid;gap:6px;font-size:17px}
+#bye .btn{min-width:220px}
+.balloon{position:fixed;bottom:52px;left:12px;width:min(260px,calc(100vw - 24px));background:#ffffe1;border:1px solid #000;border-radius:8px;padding:10px 12px;font-size:13px;z-index:460;box-shadow:2px 2px 6px rgba(0,0,0,.4);cursor:pointer;text-align:right;font-family:inherit}
+.balloon b{display:block;margin-bottom:4px}
+
+/* taskbar */
+.taskbar{position:fixed;bottom:0;left:0;right:0;height:42px;background:linear-gradient(#3a7ce8,#1d50c4 50%,#1846b0);display:flex;align-items:center;gap:8px;z-index:400;border-top:2px solid #5d9bff}
+.start{height:100%;padding:0 18px;background:linear-gradient(#2e7d22,#1c5a12);color:#fff;font-weight:900;font-style:italic;font-size:18px;border:0;border-radius:0 0 0 14px;cursor:pointer;text-shadow:1px 1px 1px #000;flex:none}
+.tasks{flex:1;display:flex;gap:4px;overflow:hidden;min-width:0}
+.tasks button{background:#2f6fd6;border:1px solid #123a94;color:#fff;padding:4px 10px;border-radius:3px;white-space:nowrap;cursor:pointer;font-size:13px;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+.tasks button.top{background:#1a49a8;border-style:inset}
+.tray{background:#0c6fc0;color:#fff;height:100%;display:flex;align-items:center;gap:10px;padding:0 12px;font-size:13px;flex:none}
+.tray button{background:none;border:0;color:#fff;cursor:pointer;font-size:16px}
+.toast{position:fixed;left:12px;bottom:52px;width:min(240px,calc(100vw - 24px));background:linear-gradient(#fff,#dbe8fb);border:1px solid #3c6aaa;border-radius:4px;box-shadow:2px 2px 8px rgba(0,0,0,.4);padding:10px;font-size:13px;z-index:470;transform:translateY(220%);transition:transform .45s cubic-bezier(.2,.8,.2,1);cursor:pointer;text-align:right}
+.toast.show{transform:none}
+.toast b{color:var(--t2);display:block}
+
+@media (max-width:640px){
+  .win,#w-msn,#w-player{top:0;left:0;right:0;width:100%;height:calc(var(--vh) - 42px);border-radius:0;border-width:0}
+  .tb{border-radius:0}
+  .post{grid-template-columns:1fr}.post .who{border-left:0;border-bottom:1px solid #9fb6d6;display:flex;align-items:center;gap:8px;text-align:right}
+  .post .av{margin:0}
+  .mail{grid-template-columns:1fr}.mail .side{border-left:0;border-bottom:1px solid #c5d3ea}
+  .tray .clk{display:none}
+  .tasks button{max-width:110px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="boot">
+  <h1>إنترنتنا <span>2008</span></h1>
+  <p>الإنترنت اللي كبرنا معه</p>
+  <button class="go" id="go">🔌 اتصل بالإنترنت</button>
+  <div id="dial" role="status" aria-live="polite">
+    <div class="pc" aria-hidden="true">🖥️ <i>·</i><i>·</i><i>·</i> 🌐</div>
+    <b id="dial-t">جاري الاتصال…</b>
+    <div class="meter"><b id="dial-m"></b></div>
+    <small style="color:#555">56 كيلوبت/ثانية · لا أحد يرفع سماعة البيت!</small>
+  </div>
+  <small>🔊 شغّل الصوت · يشتغل أحسن على الكمبيوتر</small>
+</div>
+
+<main class="desktop" aria-label="سطح المكتب">
+  <button class="icon" data-app="browser"><span class="g" style="background:linear-gradient(#3f86ee,#1546b8)">e</span>الإنترنت</button>
+  <button class="icon" data-app="msn"><span class="g" style="background:linear-gradient(#4aa84a,#1f6b1a)">👥</span>ماسنجر</button>
+  <button class="icon" data-go="zkh"><span class="g" style="background:linear-gradient(#9a5cf0,#5a1fb0)">✨</span>مزخرف الأسماء</button>
+  <button class="icon" data-go="hotmail"><span class="g" style="background:linear-gradient(#e8752a,#b03d06)">✉</span>هوتميل</button>
+  <button class="icon" data-go="games"><span class="g" style="background:linear-gradient(#ffd54a,#d38200);color:#222">🎮</span>ألعاب</button>
+  <button class="icon" data-go="keek"><span class="g" style="background:#111;color:#4ad94a">K</span>كييك</button>
+  <button class="icon" data-go="memes"><span class="g" style="background:linear-gradient(#e04646,#a30000)">😂</span>ميمز وفيديوهات</button>
+  <button class="icon" data-go="phones"><span class="g" style="background:#333">📱</span>جوالاتنا</button>
+  <button class="icon" data-go="guest"><span class="g" style="background:linear-gradient(#e0609e,#a81f6a)">✎</span>سجل الزوار</button>
+  <button class="icon" id="bin"><span class="g" style="background:linear-gradient(#e6eef8,#9fb3cc);color:#234">🗑</span>سلة المحذوفات</button>
+</main>
+
+<!-- BROWSER -->
+<section class="win" id="w-browser" hidden role="dialog" aria-label="الإنترنت">
+  <div class="tb"><span id="b-title">Internet Explorer</span><button data-close aria-label="إغلاق">×</button></div>
+  <div class="nav">
+    <button id="b-back" aria-label="رجوع" disabled>→</button>
+    <button id="b-fwd" aria-label="تقدم" disabled>←</button>
+    <button id="b-home" aria-label="الصفحة الرئيسية">⌂</button>
+    <input id="b-url" aria-label="العنوان" readonly>
+    <button class="menu" id="b-enc" aria-haspopup="true" aria-expanded="false">عرض ▾</button>
+  </div>
+  <div class="links" id="links">
+    <button data-go="home">🔍 دوّر</button>
+    <button data-go="forum">💬 المنتدى</button>
+    <button data-go="zkh">✨ زخرفة</button>
+    <button data-go="hotmail">✉ هوتميل</button>
+    <button data-go="blog">🖤 مدونة</button>
+    <button data-go="games">🎮 ألعاب</button>
+    <button data-go="keek">📹 كييك</button>
+    <button data-go="memes">😂 ميمز</button>
+    <button data-go="phones">📱 جوالات</button>
+    <button data-go="guest">✎ سجل الزوار</button>
+  </div>
+  <div class="loadbar" id="loadbar"></div>
+  <div class="page" id="page"></div>
+  <div class="status"><span id="b-status">تم</span><span>🌐 الإنترنت</span></div>
+</section>
+
+<!-- MSN -->
+<section class="win" id="w-msn" hidden role="dialog" aria-label="ماسنجر">
+  <div class="tb"><span>ماسنجر – محادثة مع نوري</span><button data-close aria-label="إغلاق">×</button></div>
+  <div class="msn">
+    <div class="me">
+      <div class="pic" id="msn-pic">😎</div>
+      <div><div class="name">~*¤ نـوري ¤*~ <small style="font-weight:400;color:#2c7a20">(متصل)</small></div><div class="psm">♪ أسمع: أغنية حزينة ♪ … البعض يفهم 💔</div></div>
+    </div>
+    <div class="contacts" id="contacts" aria-label="قائمة الأصدقاء"></div>
+    <div class="chat" id="chat" role="log" aria-live="polite"></div>
+    <div class="typing" id="typing" aria-live="polite"></div>
+    <div class="msnbar">
+      <input id="msn-in" placeholder="اكتب رسالة…" aria-label="رسالة لنوري" maxlength="120">
+      <button class="btn" id="msn-send">إرسال</button>
+      <button class="btn" id="msn-nudge">📳 هزة</button>
+    </div>
+  </div>
+</section>
+
+<!-- PLAYER -->
+<section class="win" id="w-player" hidden role="dialog" aria-label="مشغل الفيديو">
+  <div class="tb"><span id="pl-title">مشغل الوسائط</span><button data-close aria-label="إغلاق">×</button></div>
+  <div class="scr" id="pl-scr"></div>
+  <div class="ctl"><span id="pl-buf">240p</span><button id="pl-stop">■ إيقاف</button></div>
+</section>
+
+<nav class="taskbar" aria-label="شريط المهام">
+  <button class="start" id="start" aria-haspopup="true" aria-expanded="false">ابدأ</button>
+  <div class="tasks" id="tasks"></div>
+  <div class="tray"><button id="mute" aria-label="كتم الصوت">🔊</button><span class="clk" id="clock"></span></div>
+</nav>
+<div class="toast" id="toast" role="status" aria-live="polite"><b id="toast-h">ماسنجر</b><span id="toast-t"></span></div>
+
+<script>
+/* ========= ضعي هنا رابط Google Apps Script بعد النشر ========= */
+const GUESTBOOK_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+/* ============================================================ */
+
+const $ = s => document.querySelector(s);
+const el = (tag, attrs={}, ...kids) => { const e=document.createElement(tag); for(const k in attrs){ if(k==="on") for(const ev in attrs.on) e.addEventListener(ev,attrs.on[ev]); else if(k==="text") e.textContent=attrs[k]; else e.setAttribute(k,attrs[k]); } kids.forEach(c=>c!=null&&e.append(c)); return e; };
+const rand = a => a[Math.floor(Math.random()*a.length)];
+const fmt = n => Number(n).toLocaleString("ar-SA");
+const wait = ms => new Promise(r=>setTimeout(r,ms));
+const isMobile = () => innerWidth<=640;
+function localGet(k){ try{ return localStorage.getItem(k);}catch(e){return null;} }
+function localSet(k,v){ try{ localStorage.setItem(k,v);}catch(e){} }
+function sessGet(k){ try{ return sessionStorage.getItem(k);}catch(e){return null;} }
+function sessSet(k,v){ try{ sessionStorage.setItem(k,v);}catch(e){} }
+const S={popups:0,nudges:0,replies:0,searches:0,videos:0,bt:0,snake:0,ads:0,names:0};
+let myName=sessGet("myname")||"أنا";
+
+/* ---------- sound ---------- */
+let AC=null, muted=false;
+function ac(){ if(!AC) AC=new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==="suspended") AC.resume(); return AC; }
+function tone(f,d,type="square",vol=.05,when=0){ if(muted) return; try{ const c=ac(),o=c.createOscillator(),g=c.createGain(); o.type=type;o.frequency.value=f;o.connect(g);g.connect(c.destination); const t=c.currentTime+when; g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.0001,t+d); o.start(t); o.stop(t+d+.02);}catch(e){} }
+function noise(d,when,vol=.04){ if(muted) return; try{ const c=ac(),b=c.createBuffer(1,c.sampleRate*d,c.sampleRate),x=b.getChannelData(0); for(let i=0;i<x.length;i++) x[i]=Math.random()*2-1; const s=c.createBufferSource(),g=c.createGain(); s.buffer=b; g.gain.value=vol; s.connect(g); g.connect(c.destination); s.start(c.currentTime+when);}catch(e){} }
+function dialup(){
+  [697,1209,770,1336,852,1477,941,1209,697,1336].forEach((f,i)=>tone(f,.09,"sine",.06,i*.11));
+  tone(2100,.9,"sine",.04,1.3); tone(1300,.5,"sawtooth",.03,2.3); tone(2400,.4,"square",.02,2.9);
+  noise(1.4,3.3,.05); tone(1800,.6,"sawtooth",.025,4.8); noise(.8,5.4,.03);
+}
+function melody(notes,type="square",vol=.05){ let t=0; notes.forEach(([f,d])=>{ if(f) tone(f,d*.9,type,vol,t); t+=d; }); return t; }
+const NOKIA=[[659,.12],[587,.12],[370,.24],[415,.24],[554,.12],[494,.12],[294,.24],[330,.24],[494,.12],[440,.12],[277,.24],[330,.24],[440,.5]];
+const sfx={
+  boot:()=>melody([[523,.18],[659,.18],[784,.18],[1047,.5]],"triangle",.06),
+  msg:()=>{tone(880,.1,"sine",.06);tone(1320,.15,"sine",.06,.1);},
+  nudge:()=>{for(let i=0;i<6;i++) tone(i%2?200:260,.07,"square",.06,i*.07);},
+  pop:()=>tone(600,.08,"square",.04),
+  win:()=>melody([[523,.12],[659,.12],[784,.12],[1047,.3]]),
+  lose:()=>melody([[400,.2],[300,.2],[200,.4]]),
+  click:()=>tone(1000,.03,"square",.03),
+  off:()=>melody([[784,.2],[659,.2],[523,.2],[392,.5]],"triangle",.06),
+  drum:()=>{ melody([[220,.1],[0,.05],[220,.1],[0,.05],[330,.35]],"square",.05); }
+};
+$("#mute").onclick=()=>{ muted=!muted; $("#mute").textContent=muted?"🔇":"🔊"; $("#mute").setAttribute("aria-label",muted?"تشغيل الصوت":"كتم الصوت"); };
+
+/* ---------- boot ---------- */
+$("#go").onclick=async()=>{
+  $("#go").hidden=true; $("#dial").style.display="flex"; $("#dial").tabIndex=-1; $("#dial").focus(); dialup();
+  const steps=[["جاري الاتصال…",25],["التحقق من اسم المستخدم وكلمة المرور…",55],["تسجيل الدخول للشبكة…",85],["متصل! 56.0 كيلوبت/ثانية",100]];
+  for(const [t,p] of steps){ $("#dial-t").textContent=t; $("#dial-m").style.width=p+"%"; await wait(1600); }
+  $("#boot").remove(); sfx.boot();
+  openApp("browser");
+  setTimeout(()=>toast("ماسنجر","نوري سجّل دخوله ✌ اضغط هنا تكلمه",()=>openApp("msn")),3000);
+  setTimeout(()=>{ if(!msnStarted) toast("ماسنجر","نوري: هلاااا وينك؟؟ 👋",()=>openApp("msn")); },22000);
+  setTimeout(()=>{ if(msnStarted) return; openApp("msn"); nudgeWin("نوري أرسل لك هزة!"); },75000);
+  setTimeout(balloon,50000);
+  setTimeout(dropLine,160000);
+  setTimeout(randomAd,30000);
+};
+
+/* ---------- windows ---------- */
+let z=10;
+function topWin(){ let best=null; document.querySelectorAll(".win:not([hidden])").forEach(w=>{ if(!best||+w.style.zIndex>+best.style.zIndex) best=w; }); return best; }
+function raise(w){ w.style.zIndex=++z; renderTasks(); }
+function openApp(name){ const w=$("#w-"+name); const was=!w.hidden; w.hidden=false; raise(w); if(name==="msn") msnStart(); closeStart();
+  if(!was){ if(name==="msn") setTimeout(()=>$("#msn-in").focus(),30); else if(name==="player") w.querySelector("#pl-stop").focus(); } }
+function closeWin(w){ w.hidden=true; renderTasks(); if(w.id==="w-browser") stopGames(); if(w.id==="w-player") $("#pl-scr").innerHTML=""; }
+document.querySelectorAll("[data-app]").forEach(b=>b.addEventListener("click",()=>openApp(b.dataset.app)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>{ openApp("browser"); go(b.dataset.go); }));
+document.querySelectorAll(".win").forEach(w=>{
+  w.querySelector("[data-close]").onclick=()=>closeWin(w);
+  w.addEventListener("pointerdown",()=>{ if(w!==topWin()) raise(w); });
+  w.querySelector(".tb").addEventListener("pointerdown",e=>{
+    if(e.target.closest("button")||isMobile()) return;
+    const r=w.getBoundingClientRect(),dx=e.clientX-r.left,dy=e.clientY-r.top;
+    w.style.right="auto";
+    const mv=ev=>{ w.style.left=Math.min(innerWidth-80,Math.max(0,ev.clientX-dx))+"px"; w.style.top=Math.min(innerHeight-90,Math.max(0,ev.clientY-dy))+"px"; };
+    const up=()=>{ removeEventListener("pointermove",mv); removeEventListener("pointerup",up); };
+    addEventListener("pointermove",mv); addEventListener("pointerup",up);
+  });
+});
+function renderTasks(){ const t=$("#tasks"), top=topWin(); t.innerHTML=""; document.querySelectorAll(".win:not([hidden])").forEach(w=>t.append(el("button",{text:w.getAttribute("aria-label"),class:w===top?"top":"",on:{click:()=>{ if(w===topWin()&&!isMobile()){ w.hidden=true; renderTasks(); } else { w.hidden=false; raise(w);} }}}))); }
+function tick(){ $("#clock").textContent=new Date().toLocaleTimeString("ar-SA",{hour:"2-digit",minute:"2-digit"}); } tick(); setInterval(tick,30000);
+let toastT; function toast(title,text,onclick){ $("#toast-h").textContent=title; $("#toast-t").textContent=text; const e=$("#toast"); e.onclick=()=>{ e.classList.remove("show"); onclick&&onclick(); }; e.classList.add("show"); sfx.msg(); clearTimeout(toastT); toastT=setTimeout(()=>e.classList.remove("show"),5000); }
+addEventListener("keydown",e=>{
+  if(e.key!=="Escape") return;
+  if($("#bsod")){ $("#bsod").remove(); return; }
+  const d=document.querySelector(".dlg"); if(d){ d.remove(); return; }
+  if(startEl){ closeStart(); $("#start").focus(); return; }
+  if($("#encm")){ $("#encm").remove(); $("#b-enc").focus(); return; }
+  const w=topWin(); if(w) closeWin(w);
+});
+async function copyText(t,node){ try{ await navigator.clipboard.writeText(t); toast("الحافظة","✅ انسخ! الصقه وين ما تبي"); }catch(e){ if(node){ const r=document.createRange(); r.selectNodeContents(node); const s=getSelection(); s.removeAllRanges(); s.addRange(r); } toast("الحافظة","حددته لك، اضغط Ctrl+C 📋"); } }
+
+/* ---------- dialogs ---------- */
+function dialog(title,body,buttons){
+  document.querySelectorAll(".dlg").forEach(d=>d.remove());
+  const d=el("div",{class:"dlg",role:"alertdialog","aria-label":title});
+  const row=el("div",{class:"row"});
+  const close=()=>d.remove();
+  buttons.forEach(([t,fn])=>row.append(el("button",{class:"btn",text:t,on:{click:()=>{ const keep=fn&&fn(d); if(!keep) close(); }}})));
+  d.append(el("div",{class:"tb"},el("span",{text:title}),el("button",{text:"×","aria-label":"إغلاق",on:{click:close}})),el("div",{class:"pb"},body,row));
+  document.body.append(d); setTimeout(()=>row.querySelector("button")?.focus(),30); return d;
+}
+function balloon(){
+  const b=el("button",{class:"balloon"},el("b",{text:"⚠ تحديثات جديدة جاهزة"}),"اضغط هنا لتثبيت 47 تحديث. جهازك بيعيد التشغيل 9 مرات.");
+  b.onclick=()=>{ b.remove(); toast("ويندوز","تم تأجيل التحديثات… للمرة الـ 300 😅"); };
+  document.body.append(b); sfx.pop(); setTimeout(()=>b.remove(),9000);
+}
+function dropLine(){
+  if(document.querySelector(".dlg")||$("#bsod")||$("#bye")) { setTimeout(dropLine,30000); return; }
+  sfx.lose();
+  dialog("انقطع الاتصال 📞",el("div",{},el("b",{text:"أحد رفع سماعة البيت!"}),el("br"),"«مين يكلم؟؟ أبي أتصل على خالتي»"),[["🔌 إعادة الاتصال",()=>{ dialup(); toast("الإنترنت","تم الاتصال من جديد ✅"); }],["إلغاء",()=>toast("الإنترنت","بدون إنترنت؟ 😢 خلاص بنعيد الاتصال لك")]]);
+}
+
+/* ---------- start menu ---------- */
+let startEl=null;
+function closeStart(){ if(startEl){ startEl.remove(); startEl=null; $("#start").setAttribute("aria-expanded","false"); } }
+$("#start").onclick=()=>{
+  if(startEl){ closeStart(); return; }
+  const nav=n=>()=>{ openApp("browser"); go(n); };
+  const items=[["🌐 الإنترنت",()=>openApp("browser")],["👥 ماسنجر",()=>openApp("msn")],["✨ مزخرف الأسماء",nav("zkh")],["✉ هوتميل",nav("hotmail")],["🎮 ألعاب",nav("games")],["📹 كييك",nav("keek")],["😂 ميمز وفيديوهات",nav("memes")],["📱 جوالاتنا",nav("phones")],["✎ سجل الزوار",nav("guest")]];
+  const list=el("div",{class:"items",role:"menu"});
+  items.forEach(([t,fn])=>list.append(el("button",{role:"menuitem",text:t,on:{click:()=>{ closeStart(); fn(); }}})));
+  startEl=el("div",{class:"startmenu"},el("div",{class:"u"},el("span",{text:"🙂"}),myName==="أنا"?"زائر_2008":myName),list,el("div",{class:"foot"},el("button",{text:"⏻ إيقاف التشغيل",on:{click:shutdown}})));
+  document.body.append(startEl); $("#start").setAttribute("aria-expanded","true"); list.querySelector("button").focus();
+};
+document.addEventListener("pointerdown",e=>{ if(startEl && !e.target.closest(".startmenu,#start")) closeStart(); });
+function shutdown(){
+  closeStart(); stopGames(); sfx.off();
+  const lines=[["🪟 سكّرت نوافذ منبثقة",S.popups+S.ads],["📳 هزّيت نوري",S.nudges],["💬 ردّيت بالمنتدى",S.replies],["✨ زخرفت أسماء",S.names],["🔍 دوّرت",S.searches],["📺 شفت فيديو",S.videos],["📲 أرسلت بالبلوتوث",S.bt],["🐍 أعلى نتيجة بالثعبان",S.snake]];
+  const ul=el("ul"); lines.forEach(([t,n])=>ul.append(el("li",{text:`${t}: ${fmt(n)}`})));
+  const bye=el("div",{id:"bye",role:"dialog","aria-label":"إيقاف التشغيل"},el("h2",{text:"جاري إيقاف التشغيل…",style:"margin:0;font-size:28px"}),el("p",{text:"هذي كانت جلستك في إنترنت 2008:",style:"margin:0"}),ul,
+    el("button",{class:"btn",text:"✎ وقّع في سجل الزوار قبل لا تطلع",on:{click:()=>{ bye.remove(); openApp("browser"); go("guest"); }}}),
+    el("button",{class:"btn",text:"🔁 شغّل الجهاز مرة ثانية",on:{click:()=>location.reload()}}));
+  document.body.append(bye); bye.querySelector("button").focus();
+}
+
+/* ---------- recycle bin ---------- */
+$("#bin").onclick=()=>dialog("سلة المحذوفات",el("div",{},"📄 واجب_الكيمياء_نهائي_نهائي2.doc",el("br"),"🖼️ صور_الرحلة_البر.jpg",el("br"),"🎵 نغمة_ضحك_موت.mp3",el("br"),"📁 أشياء_لا_تفتحها"),[["إفراغ السلة",()=>{ noise(.4,0,.06); toast("سلة المحذوفات","انمسح كل شي… حتى الواجب 💀"); }],["إغلاق"]]);
+
+/* ---------- ad popups ---------- */
+const ADS=[["🎉 مبروك!!","أنت الزائر رقم 1,000,000","اضغط هنا لاستلام جوال N95 مجاناً",()=>go("rapid")],["⚠️ تحذير","جهازك مصاب بـ 47 فيروس!","حمّل البرنامج الآن (لا تحمّله)",()=>bsod()],["📲 نغمات حصرية","أرسل رقم 5 لنغمة «نوكيا»","الرسالة بـ 5 ريال بس",()=>melody(NOKIA)],["💘 تعارف","هناك 3 أشخاص يبحثون عنك!","اضغط هنا… إذا تجرأ",()=>go("blocked")],["✨ اسمك مزخرف؟","زخرف اسمك مجاناً!!","~*¤ مثل الكبار ¤*~",()=>go("zkh")]];
+let adI=Math.floor(Math.random()*ADS.length);
+function randomAd(){
+  if(document.querySelector(".adpop")||$("#bye")){ setTimeout(randomAd,20000); return; }
+  const a=ADS[adI++%ADS.length]; const p=el("div",{class:"adpop",role:"dialog","aria-label":"إعلان"});
+  const w=Math.min(280,innerWidth-24), h=150;
+  p.style.left=Math.round(12+Math.random()*Math.max(0,innerWidth-w-24))+"px";
+  p.style.top=Math.round(12+Math.random()*Math.max(0,innerHeight-h-80))+"px";
+  const x=el("button",{text:"×","aria-label":"إغلاق الإعلان",on:{click:()=>{p.remove();S.ads++;sfx.click();}}});
+  const body=el("button",{class:"pb"},a[1],el("small",{text:a[2]}));
+  body.onclick=()=>{ p.remove(); openApp("browser"); a[3](); };
+  p.append(el("div",{class:"pt"},el("span",{text:a[0]}),x), body);
+  document.body.append(p); sfx.pop();
+  setTimeout(randomAd, 50000+Math.random()*40000);
+}
+function bsod(text){
+  $("#bsod")?.remove();
+  const b=el("div",{id:"bsod",role:"alertdialog","aria-label":"الشاشة الزرقاء"});
+  ["A problem has been detected and Windows has been shut down to prevent damage to your computer.","VIRUS_FROM_FORUM_LINK_DETECTED","If this is the first time you've seen this Stop error screen, restart your computer. If this screen appears again, stop clicking on ads.","*** STOP: 0x0000008E (0xC0000005, 0x2008, 0x00000000)"].forEach(t=>b.append(el("p",{text:t})));
+  b.append(el("p",{},el("span",{class:"ar",text:text||"ههه لا تخاف، أمزح 😂 اضغط أي مكان للرجوع"})));
+  const k=e=>{ if(e.key!=="Tab"&&e.key!=="Escape") done(); };
+  const done=()=>{ b.remove(); removeEventListener("keydown",k); };
+  b.onclick=done; setTimeout(()=>addEventListener("keydown",k),300);
+  document.body.append(b); sfx.lose(); b.tabIndex=-1; b.focus();
+}
+
+/* ---------- browser + router ---------- */
+const URLS={home:"http://www.dawwer.com/",results:"http://www.dawwer.com/search?q=",forum:"http://www.montada-althekrayat.com/vb/showthread.php?t=2008",rapid:"http://rapidshaar.com/files/nokia_themes_2008.rar",blog:"http://ghareeba-2008.maktoobblog.com/",hotmail:"http://mail.live.com/inbox",zkh:"http://www.zakhrafa-2008.com/",games:"http://www.al3ab-flash.com/",keek:"http://www.keeek.com/feed",memes:"http://www.youtube-alzaman.com/",phones:"http://www.jawalat-zaman.com/",guest:"http://www.montada-althekrayat.com/guestbook.php",blocked:"http://www.ta3arof-chat.com/"};
+const TITLES={home:"دوّر",results:"دوّر – نتائج البحث",forum:"منتديات الذكريات",rapid:"رابيد شار – تحميل",blog:"~ أفكار مبعثرة ~",hotmail:"هوتميل – البريد الوارد",zkh:"مزخرف الأسماء 2008",games:"ألعاب فلاش",keek:"كييك",memes:"ميمز وفيديوهات",phones:"جوالات زمان",guest:"سجل الزوار",blocked:"الموقع محجوب"};
+let back=[], fwd=[], cur=null, navToken=0;
+const READABLE=()=>toast("Internet Explorer","هذي الصفحة مقروءة أصلاً 🙂 جرّب المدونة");
+let setEncoding=READABLE;
+function go(name,arg,mode){
+  stopGames(); $("#encm")?.remove(); setEncoding=READABLE;
+  if(cur && !mode){ back.push(cur); fwd=[]; if(back.length>30) back.shift(); }
+  cur={name,arg};
+  $("#b-back").disabled=!back.length; $("#b-fwd").disabled=!fwd.length;
+  $("#b-url").value=URLS[name]+(arg?encodeURIComponent(arg):"");
+  $("#b-title").textContent=TITLES[name]+" – Internet Explorer";
+  document.querySelectorAll("#links button").forEach(b=>b.classList.toggle("on",b.dataset.go===name));
+  const page=$("#page"), lb=$("#loadbar"), me=++navToken;
+  page.innerHTML=""; page.scrollTop=0; page.style.background="";
+  $("#b-status").textContent="جاري فتح الصفحة…"; lb.style.transition="none"; lb.style.width="0"; requestAnimationFrame(()=>{ lb.style.transition=""; lb.style.width="100%"; });
+  setTimeout(()=>{ if(me!==navToken) return; PAGES[name](page,arg); $("#b-status").textContent="تم"; lb.style.width="0"; }, 450+Math.random()*450);
+}
+$("#b-back").onclick=()=>{ const h=back.pop(); if(h){ fwd.push(cur); go(h.name,h.arg,"hist"); } };
+$("#b-fwd").onclick=()=>{ const h=fwd.pop(); if(h){ back.push(cur); go(h.name,h.arg,"hist"); } };
+$("#b-home").onclick=()=>go("home");
+$("#b-enc").onclick=()=>{
+  if($("#encm")){ $("#encm").remove(); $("#b-enc").setAttribute("aria-expanded","false"); return; }
+  const m=el("div",{class:"encmenu",id:"encm",role:"menu"});
+  [["الترميز ← Unicode (UTF-8)","utf-8"],["الترميز ← عربي (Windows)","windows-1256"],["الترميز ← أوروبي غربي","windows-1252"]].forEach(([t,enc])=>m.append(el("button",{role:"menuitem",text:t,on:{click:()=>{ m.remove(); $("#b-enc").setAttribute("aria-expanded","false"); setEncoding(enc); }}})));
+  $(".nav").append(m); $("#b-enc").setAttribute("aria-expanded","true"); m.querySelector("button").focus();
+};
+const PAGES={};
+
+/* home */
+PAGES.home=(p)=>{
+  const inp=el("input",{id:"q",placeholder:"دوّر على أي شي…","aria-label":"بحث",autocomplete:"off"});
+  const doS=()=>{ const q=inp.value.trim(); if(q) go("results",q); };
+  inp.addEventListener("keydown",e=>{ if(e.key==="Enter") doS(); });
+  const chips=el("div",{class:"chips"});
+  ["زخرفة اسمي","ثيمات نوكيا","ألعاب","كييك","ماسنجر","هوتميل","مقاطع تضحك","مدونات","تعارف"].forEach(q=>chips.append(el("button",{text:q,on:{click:()=>{inp.value=q;doS();}}})));
+  p.append(el("div",{class:"home"},
+    el("div",{class:"logo","aria-label":"دوّر"},el("b",{text:"د"}),el("b",{text:"و"}),el("b",{text:"ّ"}),el("b",{text:"ر"})),
+    el("div",{class:"sbox"},inp,el("button",{class:"btn",text:"بحث دوّر",on:{click:doS}}),el("button",{class:"btn",text:"ضربة حظ 🍀",on:{click:()=>go(rand(["forum","games","keek","memes","blog","hotmail","zkh"]))}})),
+    el("div",{class:"note",text:"جرّب تدوّر على:"}),chips,
+    el("div",{class:"note",text:"© 2008 دوّر · محرك البحث رقم 1 في الحارة"})
+  ));
+  if(!isMobile()) setTimeout(()=>inp.focus(),50);
+};
+const INDEX=[
+  {go:"zkh",t:"مزخرف الأسماء 2008 – زخرف اسمك للماسنجر والمنتدى ✨",d:"~*¤ نـوره ¤*~ · ღ عبودي ღ · ورسالة شخصية تقطّع القلب",k:["زخرف","زخرفة","اسم","أسماء","اسمي","مزخرف","توقيع","رسالة شخصية","حزين","كوميدي","ضحك"]},
+  {go:"forum",t:"منتديات الذكريات – حصرياً ثيمات نوكيا N95 كاملة",d:"الرد عشان يظهر الرابط… 1,204 رد · عضو ذهبي",k:["نوكيا","ثيم","منتدى","منتديات","حصري","رابط","بلوتوث","نغمات"]},
+  {app:"msn",t:"ماسنجر – تحميل أحدث إصدار",d:"نوري متصل الحين. افتح المحادثة وأرسل له هزة 📳",k:["ماسنجر","مسنجر","msn","هزة","محادثة","شات"]},
+  {go:"hotmail",t:"هوتميل – سجّل دخولك للبريد",d:"عندك 6 رسائل جديدة… كلها FW: FW: FW:",k:["هوتميل","hotmail","ايميل","إيميل","بريد","رسائل"]},
+  {go:"blog",t:"~ أفكار مبعثرة ~ مدونتي على مكتوب",d:"خواطر، أغاني، وخلفية سوداء بكتابة خضراء",k:["مدونة","مدونات","خواطر","مكتوب","blog"]},
+  {go:"games",t:"ألعاب فلاش – الثعبان، اصطد النوافذ، والذاكرة",d:"العب الحين قبل لا يجي أبوك يبي الكمبيوتر",k:["ألعاب","العاب","لعبة","ثعبان","فلاش","snake"]},
+  {go:"keek",t:"كييك – مقاطع قصيرة وستوري تايم",d:"مقاطع 36 ثانية، والناس يعلّقون «أول 😎»",k:["كييك","keek","ستوري","مقاطع","يوميات"]},
+  {go:"memes",t:"ميمز وفيديوهات زمان",d:"الفيديوهات اللي الكل أرسلها لك بالبلوتوث",k:["ميمز","ميم","فيديو","يوتيوب","ضحك","تضحك","مضحك","مقاطع"]},
+  {go:"phones",t:"جوالات زمان – نوكيا وبلاك بيري وآيفون",d:"اضغط على جوالك القديم وشوف وش يسوي",k:["جوال","جوالات","بلاك","نوكيا","ايفون","آيفون","بي بي"]},
+  {go:"guest",t:"سجل الزوار – وقّع ولا تطلع",d:"اكتب كلمة قبل لا تمشي 🌹",k:["سجل","زوار","توقيع","guestbook"]},
+];
+const BLOCKED=["تعارف","دردشه","دردشة","بروكسي","proxy","فك الحجب","فك حجب"];
+PAGES.results=(p,q)=>{
+  S.searches++;
+  const ql=q.toLowerCase().trim();
+  if(BLOCKED.some(b=>ql.includes(b))){ go("blocked",null,"hist"); return; }
+  const hits=INDEX.filter(r=>r.k.some(k=>ql.includes(k)||(ql.length>=3&&k.includes(ql))));
+  const box=el("div",{class:"results"});
+  if(hits.length){
+    box.append(el("div",{class:"note",text:`نتائج ${fmt(1)} - ${fmt(hits.length)} من حوالي ${fmt(Math.random()*900000|0)} للبحث عن «${q}» (${fmt(0.21)} ثانية)`}));
+    hits.forEach(r=>{ const b=el("button",{text:r.t}); b.onclick=()=>r.app?openApp(r.app):go(r.go); box.append(el("div",{class:"res"},b,el("p",{text:r.d}),el("div",{class:"u",text:r.app?"http://messenger.msn.com/download":URLS[r.go]}))); });
+  } else {
+    box.append(el("p",{text:`لا توجد نتائج للبحث عن «${q}» 😅`}));
+    const dym=el("p",{},"هل تقصد: ");
+    ["زخرفة اسمي","ألعاب","ماسنجر","مقاطع تضحك"].forEach(s=>dym.append(el("button",{class:"btn",style:"margin-inline-end:6px;font-size:13px",text:s,on:{click:()=>go("results",s)}})));
+    box.append(dym);
+  }
+  p.append(box);
+};
+PAGES.blocked=(p)=>{
+  p.append(el("div",{class:"blocked"},el("div",{class:"box"},el("div",{class:"stop",text:"قف"}),el("h2",{text:"عذراً، الموقع المطلوب غير متاح"}),el("p",{text:"تم حجب هذا الموقع لاحتوائه على محتوى غير مناسب."}),el("p",{class:"note",text:"وإذا تشوف إن الحجب غلط، تقدر تعبّي نموذج طلب رفع الحجب… ولا أحد بيرد عليك 😂"}),el("button",{class:"btn",text:"→ رجوع بسرعة قبل لا أحد يشوف",on:{click:()=>back.length?$("#b-back").click():go("home")}}))));
+};
+
+/* name decorator: the comedy tool */
+const SUFFIX=["ملك الإحساس","أميرة الورد","الغامض","صعب المنال","قلب الأسد","نجمة المنتدى","دلوعة أهلها","شيخ الشباب","المجروح","أسطورة الحارة","عاشق الليل","ما يعرفني أحد"];
+const PSM=["البعض يفهم 💔","لا تسألني وش فيني…","الحياة صعبة بدون… لا خلاص","مشغول بالدراسة (ما أذاكر)","اللي يبيني يعرف وين يلقاني","تعبت من الناس 😔","♪ أسمع: أغنية حزينة ♪","brb للأبد","ابتسم وأنا مجروح ☺","لا تحكم علي وأنت ما تعرف قصتي","قلبي مثل الإنترنت… ينقطع كل شوي","أنا مو مثل الناس… أنا غير","الصمت أبلغ من الكلام (لأن الكيبورد خربان)"];
+const QUOTES=["إذا ما ردّيت لا تعاتبني","اللي ما يعرف الصقر يشويه","لا إله إلا الله","ابتسم فأنت في منتديات الذكريات","الطيب ما ينسى","كلامي على قد فهمك"];
+const NOJOIN="اأإآدذرزوؤةىء ";
+function tatweel(n){ const a=[...n]; for(let i=0;i<a.length-1;i++){ if(/[ؠ-ي]/.test(a[i])&&!NOJOIN.includes(a[i])&&/[ؠ-ي]/.test(a[i+1])) return a.slice(0,i+1).join("")+"ـ"+a.slice(i+1).join(""); } return n; }
+function decorations(n){ const t=tatweel(n), sp=[...n].join(" ");
+  return [`~*¤ ${t} ¤*~`,`ღ ${n} ღ`,`♥» ${t} «♥`,`【 ${n} 】`,`★彡 ${n} 彡★`,`×× ${sp} ××`,`•°¯\`•• ${t} ••´¯°•`,`✿ ${n} ✿ ~ ${rand(SUFFIX)} ~`,`ζ๏ ${t} ๏ζ`,`₪ ${n} ₪ (${rand(SUFFIX)})`]; }
+PAGES.zkh=(p)=>{
+  const box=el("div",{class:"zk"});
+  box.append(el("h2",{text:"✨ مزخرف الأسماء 2008 ✨"}),el("p",{class:"note center",style:"margin:0",text:"أقوى موقع زخرفة في الشرق الأوسط (حسب رأينا)"}));
+  // 1 names
+  const inp=el("input",{id:"zk-name",placeholder:"اكتب اسمك… مثلاً: نوره",maxlength:"20","aria-label":"اسمك",value:myName==="أنا"?"":myName.replace(/[^؀-ۿa-zA-Z0-9 ]/g,"").trim()});
+  const out=el("div",{role:"status","aria-live":"polite"});
+  const make=()=>{ const n=inp.value.trim()||"نوره"; out.innerHTML=""; S.names++; sfx.click();
+    decorations(n).forEach(d=>{ const o=el("output",{text:d});
+      out.append(el("div",{class:"zrow"},o,el("button",{class:"btn",text:"📋 نسخ",on:{click:()=>copyText(d,o)}}),el("button",{class:"btn",text:"👥 حطه اسمي بالماسنجر",on:{click:()=>{ myName=d; sessSet("myname",d); toast("ماسنجر",`صار اسمك: ${d} 😎 الكل بيعرفك الحين`); }}}))); }); };
+  inp.addEventListener("keydown",e=>{ if(e.key==="Enter") make(); });
+  box.append(el("section",{},el("h3",{text:"١. زخرف اسمك"}),el("div",{class:"inrow"},inp,el("button",{class:"btn",text:"✨ زخرف",on:{click:make}})),out));
+  // 2 personal message
+  const psm=el("div",{class:"psmout",role:"status","aria-live":"polite",text:"اضغط الزر وخلّ الناس يسألونك «وش فيك؟»"});
+  const genPsm=()=>{ psm.textContent=`${rand(["","♪ ","~ ","» "])}${rand(PSM)}${rand([""," …"," 💔"," 🥀"," ¤"])}`; sfx.click(); };
+  box.append(el("section",{},el("h3",{text:"٢. مولّد الرسالة الشخصية الحزينة"}),psm,el("div",{class:"inrow"},el("button",{class:"btn",text:"🎲 ولّد رسالة",on:{click:genPsm}}),el("button",{class:"btn",text:"📋 نسخ",on:{click:()=>copyText(psm.textContent,psm)}}))));
+  // 3 drama meter
+  const bar=el("b"), verdict=el("div",{class:"msg",role:"status"});
+  const VERD=[[30,"😐 هادي… مستحيل تصير عضو ذهبي بهالمستوى"],[60,"😏 فيك دراما، بس تحتاج تكتب «البعض يفهم»"],[85,"😭 دراما عالية! تقدر تكتب خواطر في المدونة"],[101,"🎭 أسطورة الدراما! الماسنجر كله يسألك وش فيك"]];
+  const meter=()=>{ const v=Math.floor(Math.random()*101); bar.style.width="0"; verdict.textContent="جاري القياس… 🥁"; sfx.drum(); setTimeout(()=>{ bar.style.width=v+"%"; },60); setTimeout(()=>{ verdict.textContent=`نسبة الدراما عندك: ${fmt(v)}% — ${VERD.find(x=>v<x[0])[1]}`; },1300); };
+  box.append(el("section",{},el("h3",{text:"٣. مقياس الدراما 🎭"}),el("div",{class:"drama"},bar),verdict,el("button",{class:"btn",style:"justify-self:start",text:"📏 قيس درامتي",on:{click:meter}})));
+  // 4 signature
+  const sig=el("div",{class:"sigbox"});
+  const genSig=()=>{ const n=inp.value.trim()||"نوره"; const d=rand(decorations(n).slice(0,5)); sig.innerHTML=""; sig.append(el("div",{text:"✿•°•.•°•✿•°•.•°•✿"}),el("b",{text:d}),el("div",{text:`~ ${rand(QUOTES)} ~`}),el("div",{text:`عضو منذ 2008 · ${rand(["⭐⭐⭐","🌹🌹","👑"])}`}),el("div",{text:"✿•°•.•°•✿•°•.•°•✿"})); sfx.click(); };
+  genSig();
+  box.append(el("section",{},el("h3",{text:"٤. توقيعك في المنتدى"}),sig,el("div",{class:"inrow"},el("button",{class:"btn",text:"🎲 توقيع ثاني",on:{click:genSig}}),el("button",{class:"btn",text:"📋 نسخ",on:{click:()=>copyText(sig.innerText,sig)}}))));
+  p.append(box); make();
+};
+
+/* forum */
+let myPosts=+sessGet("posts")||0;
+const RANKS=[[0,"عضو جديد"],[2,"عضو نشيط ⭐"],[4,"عضو مميز ⭐⭐"],[6,"عضو ذهبي ⭐⭐⭐"]];
+const myRank=()=>RANKS.filter(r=>myPosts>=r[0]).pop()[1];
+PAGES.forum=(p)=>{
+  let unlocked=false;
+  const me=myName==="أنا"?"زائر_2008":myName;
+  p.append(el("div",{class:"fhead"},el("h2",{text:"منتديات الذكريات"}),el("small",{text:`مرحباً بك يا ${me} · رتبتك: ${myRank()}`})));
+  const mq=el("div",{class:"marquee",tabindex:"0","aria-label":"شريط الأخبار، مرّر الماوس للإيقاف"}); mq.append(el("b",{text:"★ أهلاً وسهلاً بك في منتدانا ★ لا تنسونا من صالح دعائكم ★ يمنع وضع الروابط الخارجية ★ الرد بكلمة «شكراً» يعرضك للإنذار ★"})); p.append(mq);
+  p.append(el("div",{class:"online",text:`👥 الأعضاء المتواجدون الآن: أبو نواف، ~*عاشقة الورد*~، سلطان القلوب، مشرف القسم، ${me}، و ${fmt(37)} زائر`}));
+  const wrap=el("div",{class:"fwrap"}); p.append(wrap);
+  const post=(who,av,rank,n,txt,sig,thanks)=>{ const t=el("div",{class:"txt"},txt);
+    if(sig) t.append(el("div",{class:"sig",text:sig}));
+    if(thanks){ let c=thanks, done=false; const span=el("span",{text:`شكراً: ${fmt(c)}`}); const b=el("button",{class:"btn",style:"min-height:28px;padding:2px 10px;font-size:12px",text:"👍 شكر",on:{click:()=>{ if(done){ toast("المنتدى","شكرته مرة. لا تبالغ 😂"); return;} done=true; c++; span.textContent=`شكراً: ${fmt(c)}`; sfx.click(); }}}); t.append(el("div",{class:"bar"},b,span)); }
+    return el("div",{class:"post"},el("div",{class:"who"},el("b",{text:who}),el("div",{class:"av","aria-hidden":"true",text:av}),el("div",{class:"rank",text:rank}),el("div",{text:"المشاركات: "+n})),t); };
+  const body=el("div");
+  body.append(el("b",{text:"حصرياً: ثيمات نوكيا N95 كاملة + نغمات بلوتوث 🔥🔥"}),el("br"),"السلام عليكم ورحمة الله وبركاته",el("br"),"جبت لكم أحلى ثيمات ما شفتوها بحياتكم، تعبت عليها والله",el("br"),el("br"));
+  const link=el("button",{class:"flink locked",text:"http://rapidshaar.com/files/nokia_themes_2008.rar",tabindex:"-1","aria-hidden":"true"});
+  link.onclick=()=>go("rapid");
+  const lockMsg=el("div",{class:"blink",text:"⛔ لا يمكنك رؤية الرابط إلا بعد الرد!"});
+  const linkBox=el("div",{},link,lockMsg);
+  body.append(linkBox);
+  wrap.append(post("¤ أبو نـواف ¤","🦅","عضو ذهبي ⭐⭐⭐",fmt(3481),body,"✿ لا إله إلا الله ✿ ~ إذا ما ردّيت لا تعاتبني ~",212));
+  [["~*عاشقة الورد*~","🌹","عضوة مميزة",fmt(1022),"يعطيك العافية على الموضوع الحلو 🌹🌹","ღ أحب أمي ღ",14],["سـلـطـان الـقـلـوب","👑","عضو نشيط",fmt(540),"مشكور أخوي بس الرابط خربان 💔","«اللي ما يعرف الصقر يشويه»",3],["مشرف القسم","🛡️","مشرف",fmt(9999),"تم نقل الموضوع للقسم المناسب. الرجاء عدم الرد بكلمة «شكراً» فقط. ⚠️ إنذار أول لـ «سلطان القلوب»","",0]].forEach(r=>wrap.append(post(...r)));
+  const QR=["يعطيك العافية 🌹","مشكور ما قصرت","منقول؟ 🤨","هههههههههههه","وين الرابط؟؟؟","ابو نواف انت اسطورة"];
+  const added=el("div",{style:"display:grid;gap:12px"}); wrap.append(added);
+  const qr=el("div",{class:"qr"},el("b",{text:"رد سريع: "}));
+  QR.forEach(t=>qr.append(el("button",{class:"btn",text:t,on:{click:()=>{
+    const before=myRank(); myPosts++; sessSet("posts",myPosts); S.replies++;
+    added.append(post(me,"🙂",myRank(),fmt(myPosts),t,"",0)); sfx.click();
+    if(myRank()!==before) toast("المنتدى",`🎖️ مبروك! صرت «${myRank()}»`);
+    if(!unlocked){ unlocked=true; link.classList.remove("locked"); link.removeAttribute("aria-hidden"); link.tabIndex=0; lockMsg.className="msg ok"; lockMsg.textContent="✅ ظهر الرابط! اضغط عليه وحمّل الثيمات 👆";
+      linkBox.scrollIntoView({block:"center",behavior:"smooth"}); linkBox.classList.add("flash"); sfx.win(); }
+  }}})));
+  wrap.append(qr);
+};
+PAGES.rapid=(p)=>{
+  const box=el("div",{class:"rs"});
+  const free=el("button",{class:"btn",text:"Free User 🐢"}), prem=el("button",{class:"btn",text:"Premium 💳"});
+  box.append(el("div",{class:"logo2",text:"RapidShaar"}),el("b",{text:"nokia_themes_2008.rar · 48.7 MB"}),
+    el("div",{class:"plans"},el("div",{class:"plan"},el("b",{text:"مستخدم مجاني"}),el("span",{class:"note",text:"سرعة 20 كيلوبت/ثانية وانتظار"}),free),el("div",{class:"plan"},el("b",{text:"بريميوم"}),el("span",{class:"note",text:"تحميل سريع بالفيزا"}),prem)));
+  prem.onclick=()=>toast("رابيد شار","وين بتجيب فيزا وأنت بثاني متوسط؟ 😂");
+  free.onclick=async()=>{
+    box.innerHTML=""; const c=el("div",{class:"count",role:"timer",text:fmt(30)}); box.append(el("div",{class:"logo2",text:"RapidShaar"}),el("p",{text:"انتظر قبل يبدأ التحميل… ولا تحدّث الصفحة!"}),c);
+    const me=navToken;
+    for(let i=29;i>=0;i--){ await wait(1000); if(me!==navToken) return; c.textContent=fmt(i); tone(500,.03,"sine",.02); }
+    box.innerHTML=""; box.append(el("div",{class:"logo2",text:"RapidShaar"}),el("h2",{text:"❌ الملف غير موجود",style:"margin:0;color:#b00"}),el("p",{text:"This file was deleted in 2009 due to inactivity."}),el("p",{text:"طبعاً. 30 ثانية انتظار عشان هذا 💀"}),el("button",{class:"btn",text:"→ ارجع للمنتدى واشتكي",on:{click:()=>go("forum")}}));
+    sfx.lose();
+  };
+  p.append(box);
+};
+
+/* blog with broken encoding */
+PAGES.blog=(p)=>{
+  const POST="أول تدوينة لي في مدونتي 🌸\nاليوم رحت المدرسة وكان الجو غبار، والأستاذ نسي يجيب الاختبار الحمدلله.\nبالليل جلست على الماسنجر لين الساعة 3 الفجر وأمي ما درت 🤫\nأغنية اليوم: ما أعرف اسمها بس حلوة، حطيتها تشتغل أول ما تفتحون المدونة.\nلا تنسون تكتبون تعليق ✿";
+  const bad=(s,enc)=>{ try{ return new TextDecoder(enc).decode(new TextEncoder().encode(s)); }catch(e){ return [...s].reverse().join(""); } };
+  const h=el("h2"), art=el("article");
+  const warn=el("div",{class:"warn",role:"note"},"⚠ الصفحة طالعة رموز غريبة؟ اضغط ",el("b",{text:"«عرض ▾»"})," فوق، واختر الترميز الصحيح.");
+  const render=enc=>{ const ok=enc==="utf-8"; h.textContent=ok?"~ أفكار مبعثرة ~":bad("~ أفكار مبعثرة ~",enc); art.textContent=ok?POST:bad(POST,enc); warn.hidden=ok; };
+  render("windows-1256");
+  setEncoding=enc=>{ render(enc); if(enc==="utf-8"){ toast("Internet Explorer","✅ الحين صارت مقروءة! حركة كل عربي في 2008"); sfx.win(); } else toast("Internet Explorer","لا، لسه رموز 😵 جرّب ترميز ثاني"); };
+  p.append(el("div",{class:"blog"},warn,h,art,el("p",{class:"center",style:"color:#ff66cc",text:"عدد الزوار: 000047 · آخر تحديث: 2008/3/14"})));
+};
+
+/* hotmail */
+PAGES.hotmail=(p)=>{
+  const MAILS=[
+    ["نوري","دعوة: أضفني على الماسنجر","هلا والله 👋\nضيفني على الماسنجر وبنكلم بعض الليلة.\nلا تنسى تحط رسالة شخصية حلوة.",{t:"👥 افتح ماسنجر",fn:()=>openApp("msn")}],
+    ["سلطان القلوب","FW: FW: FW: FW: لا تحذفها!!!","أرسل هذي الرسالة لـ 10 أشخاص خلال 10 دقايق وبتسمع خبر حلو الليلة 🌙\nواحد ما أرسلها، انقطع عنه الإنترنت أسبوع.\nأنت مسؤول أمام نفسك."],
+    ["إدارة البريد (مو حقيقية 😅)","هام: سيتم حذف حسابك!!","نظراً لكثرة المستخدمين، سيتم حذف الحسابات غير النشطة.\nلإثبات نشاطك أرسل هذه الرسالة لكل قائمتك.\n(ولا أحد في التاريخ عرف مين كتبها)"],
+    ["مجهول","صور حلوة 😍","شوف الصور المرفقة، تجنن والله!!",{t:"📎 صور_حلوة.jpg.exe",fn:()=>bsod("هذا جزاء اللي يفتح ملفات .exe من مجهول 😂 اضغط أي مكان")}],
+    ["~*عاشقة الورد*~","FW: نكت جديدة 2008 😂😂","مرة واحد دخل الإنترنت، طلع له «تم الاتصال»، قال: الحمدلله على السلامة.\n(النكتة كانت تضحك وقتها والله)"],
+    ["مزخرف الأسماء","اسمك ما فيه ولا نجمة؟! 😱","يا شيخ حتى أبو نواف اسمه مزخرف.\nادخل الحين وزخرف اسمك مجاناً ✨",{t:"✨ زخرف اسمي",fn:()=>go("zkh")}],
+  ];
+  const read=el("div",{class:"read",role:"region","aria-label":"الرسالة"}); const side=el("div",{class:"side"},el("div",{class:"hd",text:"✉ البريد الوارد ("+fmt(MAILS.length)+")"}));
+  const show=(m,btn)=>{ side.querySelectorAll(".item").forEach(b=>b.classList.remove("on")); btn.classList.add("on"); btn.classList.remove("unread"); read.innerHTML=""; read.append(el("h3",{text:m[1]}),el("div",{class:"note",text:"من: "+m[0]}),el("p",{style:"white-space:pre-line",text:m[2]})); if(m[3]) read.append(el("button",{class:"att",text:m[3].t,on:{click:m[3].fn}})); sfx.click(); if(isMobile()) read.scrollIntoView({behavior:"smooth"}); };
+  MAILS.forEach((m,i)=>{ const b=el("button",{class:"item"+(i<4?" unread":"")},el("b",{text:m[0]}),m[1]); b.onclick=()=>show(m,b); side.append(b); });
+  read.append(el("p",{class:"note",text:"اختر رسالة من القائمة"}));
+  p.append(el("div",{class:"mail"},side,read));
+};
+
+/* ---------- MSN ---------- */
+let msnStarted=false, lastNudge=0;
+const CONTACTS=[["نوري","#2c8a20","متصل"],["~*عاشقة الورد*~","#c02020","مشغولة"],["سلطان القلوب","#c98a00","بالخارج"],["أبو نواف","#888","غير متصل"]];
+const BOT=["hhhhhhhhhh 😂","brb","lol 5555","sho 2a5barak?","لحظة أمي تناديني","شفت المقطع اللي بالبلوتوث؟ 😂","وش رقمك البي بي؟ ضيفني","ليش ما رديت علي امس 😒","ههههههه والله انك فاضي","اوكي","شغّل الكاميرا 📷 …امزح","7ayak wallah","هزّني إذا تبيني","يلا باي بروح انام (ما راح ينام)","غيّرت صورتي، شفتها؟","وش هالاسم المزخرف 😂 علمني"];
+function line(cls,who,text){ const c=$("#chat"); const d=el("div",{class:"l "+cls}); if(who) d.append(el("b",{text:who+" يقول:"}),el("br")); d.append(text); c.append(d); c.scrollTop=c.scrollHeight; }
+function sys(t,cls="sys"){ const c=$("#chat"); c.append(el("div",{class:cls,text:t})); c.scrollTop=c.scrollHeight; }
+function msnStart(){ if(msnStarted) return; msnStarted=true;
+  const cl=$("#contacts"); CONTACTS.forEach(([n,col,st])=>cl.append(el("button",{on:{click:()=>{ if(n==="نوري"){ $("#msn-in").focus(); return; } sys(st==="غير متصل"?`${n} غير متصل. رسالتك بتوصله لما يدخل… يمكن 2009`:`${n} حالته «${st}» وما راح يرد عليك 🙃`); }}},el("span",{class:"dot",style:"background:"+col,"aria-hidden":"true"}),`${n} (${st})`)));
+  sys("نوري متصل الآن ✌"); setTimeout(()=>{ line("","~*¤ نـوري ¤*~","هلا هلا 👋 وينك من زمان؟"); sfx.msg(); },700);
+}
+function nudgeWin(text){ const w=$("#w-msn"); sys(text,"nudge"); sfx.nudge(); w.classList.remove("shake"); void w.offsetWidth; w.classList.add("shake"); }
+let botBusy=false;
+function botReply(){ if(botBusy) return; botBusy=true; const ty=$("#typing");
+  setTimeout(()=>{ ty.textContent="نوري يكتب رسالة…"; },400);
+  if(Math.random()<.3){ setTimeout(()=>{ ty.textContent=""; },1100); setTimeout(()=>{ ty.textContent="نوري يكتب رسالة…"; },1700); }
+  setTimeout(()=>{ ty.textContent=""; line("","~*¤ نـوري ¤*~",myName!=="أنا"&&Math.random()<.3?"وش هالاسم المزخرف 😂 علمني":rand(BOT)); sfx.msg(); botBusy=false;
+    if(Math.random()<.15) setTimeout(()=>nudgeWin("نوري أرسل لك هزة!"),800);
+    if(Math.random()<.1){ $("#msn-pic").textContent=rand(["🐱","⚽","🦅","🌙","🎮"]); sys("نوري غيّر صورته"); }
+  },2200+Math.random()*1200); }
+$("#msn-send").onclick=()=>{ const i=$("#msn-in"), t=i.value.trim(); if(!t) return; line("mine",myName,t); i.value=""; botReply(); };
+$("#msn-in").addEventListener("keydown",e=>{ if(e.key==="Enter") $("#msn-send").click(); });
+$("#msn-nudge").onclick=()=>{ if(Date.now()-lastNudge<8000){ sys("لا يمكنك إرسال هزة بشكل متكرر."); return; } lastNudge=Date.now(); S.nudges++; nudgeWin("لقد أرسلت هزة!"); setTimeout(()=>{ line("","~*¤ نـوري ¤*~",rand(["خلاااص لا تهزني 😂","وش تبي؟؟","ارتجت الشاشة يا رجال 😂"])); sfx.msg(); },1300); };
+
+/* ---------- GAMES ---------- */
+let gameTimers=[], keyHandler=null, visHandler=null;
+function stopGames(){ gameTimers.forEach(t=>{clearInterval(t);clearTimeout(t);}); gameTimers=[]; if(keyHandler){ removeEventListener("keydown",keyHandler); keyHandler=null; } if(visHandler){ document.removeEventListener("visibilitychange",visHandler); visHandler=null; } }
+PAGES.games=(p)=>{
+  const area=el("div"), tabs=el("div",{class:"gtabs",role:"tablist"});
+  const G={snake:"🐍 الثعبان",pops:"🪟 اصطد النوافذ",mem:"🧠 الذاكرة"};
+  const show=k=>{ stopGames(); area.innerHTML=""; tabs.querySelectorAll("button").forEach(b=>{ b.classList.toggle("on",b.dataset.k===k); b.setAttribute("aria-selected",b.dataset.k===k); }); ({snake,pops,mem})[k](area); };
+  for(const k in G) tabs.append(el("button",{class:"btn",role:"tab","data-k":k,text:G[k],on:{click:()=>show(k)}}));
+  p.append(el("div",{class:"games"},el("h2",{class:"pt",text:"🎮 ألعاب فلاش – بدون تحميل!",style:"color:#8a5000"}),tabs,area));
+  show("snake");
+};
+function snake(a){
+  const N=16, cv=el("canvas",{width:"160",height:"160","aria-hidden":"true"}), ctx=cv.getContext("2d");
+  const score=el("span",{text:fmt(0)}), best=el("span",{text:"أعلى: "+fmt(+localGet("snake")||0)});
+  const ov=el("div",{class:"ov",role:"status"},"اضغط ▶ أو أي سهم للبدء");
+  let s=[[8,8],[7,8],[6,8]],dir=[1,0],nd=dir,food=[12,8],alive=false,sc=0,paused=false;
+  const placeFood=()=>{ do{ food=[Math.random()*N|0,Math.random()*N|0]; }while(s.some(c=>c[0]===food[0]&&c[1]===food[1])); };
+  const reset=()=>{ s=[[8,8],[7,8],[6,8]]; dir=[1,0]; nd=dir; sc=0; score.textContent=fmt(0); placeFood(); alive=true; paused=false; ov.hidden=true; };
+  const draw=()=>{ ctx.fillStyle="#9db88a"; ctx.fillRect(0,0,160,160); ctx.fillStyle="#1c2b12"; s.forEach(c=>ctx.fillRect(c[0]*10+1,c[1]*10+1,8,8)); ctx.fillRect(food[0]*10+3,food[1]*10+3,4,4); };
+  const pause=()=>{ paused=true; ov.textContent="⏸ موقفة · اضغط مسافة أو ▶"; ov.hidden=false; };
+  const over=()=>{ alive=false; sfx.lose(); const b=+localGet("snake")||0; if(sc>b){ localSet("snake",sc); best.textContent="أعلى: "+fmt(sc); } S.snake=Math.max(S.snake,sc); ov.textContent=""; ov.append(el("div",{},"انتهت اللعبة 💀",el("br"),"نتيجتك: "+fmt(sc),el("br"),el("small",{text:"اضغط ▶ أو مسافة"}))); ov.hidden=false; };
+  const step=()=>{ if(!alive||paused) return; if($("#w-browser").hidden||topWin()!==$("#w-browser")){ pause(); return; } dir=nd; const h=[(s[0][0]+dir[0]+N)%N,(s[0][1]+dir[1]+N)%N];
+    if(s.some(c=>c[0]===h[0]&&c[1]===h[1])){ over(); draw(); return; }
+    s.unshift(h); if(h[0]===food[0]&&h[1]===food[1]){ sc+=7; score.textContent=fmt(sc); tone(1200,.05); placeFood(); } else s.pop(); draw(); };
+  const turn=(x,y)=>{ if(!alive) reset(); if(paused){ paused=false; ov.hidden=true; } if(dir[0]===-x&&dir[1]===-y) return; nd=[x,y]; };
+  keyHandler=e=>{ if(e.target.closest&&e.target.closest("input,textarea")) return; if($("#w-browser").hidden||topWin()!==$("#w-browser")) return;
+    const m={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],"2":[0,-1],"8":[0,1],"4":[-1,0],"6":[1,0]}[e.key];
+    if(m){ e.preventDefault(); turn(...m); }
+    else if(e.key===" "){ if(e.target.closest&&e.target.closest("button")) return; e.preventDefault(); if(!alive) reset(); else if(paused){ paused=false; ov.hidden=true; } else pause(); } };
+  addEventListener("keydown",keyHandler);
+  visHandler=()=>{ if(document.hidden&&alive) pause(); }; document.addEventListener("visibilitychange",visHandler);
+  const startBtn=el("button",{text:"▶","aria-label":"ابدأ",on:{click:()=>{ if(alive&&paused){ paused=false; ov.hidden=true; } else reset(); draw(); }}});
+  const pad=el("div",{class:"pad",dir:"ltr"},el("span"),el("button",{text:"2▲","aria-label":"فوق",on:{click:()=>turn(0,-1)}}),el("span"),el("button",{text:"◀4","aria-label":"يسار",on:{click:()=>turn(-1,0)}}),startBtn,el("button",{text:"6▶","aria-label":"يمين",on:{click:()=>turn(1,0)}}),el("span"),el("button",{text:"8▼","aria-label":"تحت",on:{click:()=>turn(0,1)}}),el("span"));
+  a.append(el("div",{class:"snakewrap"},el("div",{class:"nokia"},el("div",{class:"sc",dir:"ltr"},score,best),cv,ov),pad),el("p",{class:"note center",text:"الأسهم أو 2 4 6 8 مثل نوكيا 3310. المسافة توقف اللعبة."}));
+  draw(); gameTimers.push(setInterval(step,130));
+}
+function pops(a){
+  const arena=el("div",{class:"arena"}), info=el("p",{class:"center",style:"font-weight:700;margin:0",role:"status"});
+  let score=0, open=0, timeLeft=30, running=false, every=1100;
+  const TXT=["مبروك ربحت!!","جهازك فيه فيروس","حمّل شريط الأدوات","أنت الزائر رقم 1000000","نغمات مجانية","هل تريد حفظ كلمة المرور؟","تحديث ويندوز!!","اضغط هنا للفوز"];
+  const upd=()=>info.textContent=`⏱ ${fmt(timeLeft)} ثانية · سكّرت: ${fmt(score)} · مفتوحة: ${fmt(open)} من ${fmt(8)}`;
+  const spawn=()=>{ if(!running) return; const w=arena.clientWidth, h=arena.clientHeight; const pw=Math.min(190,w*.62); const pp=el("div",{class:"pop"}); pp.style.left=Math.random()*Math.max(0,w-pw)+"px"; pp.style.top=Math.random()*Math.max(0,h-90)+"px";
+    pp.append(el("div",{class:"pt"},el("span",{text:"⚠"}),el("button",{text:"×","aria-label":"إغلاق النافذة",on:{click:()=>{ pp.remove(); open--; score++; S.popups++; sfx.click(); upd(); }}})),el("div",{class:"pb",text:rand(TXT)}));
+    arena.append(pp); open++; sfx.pop(); upd(); if(open>=8){ end(false); return; }
+    every=Math.max(420,every-45); gameTimers.push(setTimeout(spawn,every)); };
+  const end=(won)=>{ running=false; stopGames(); arena.innerHTML="";
+    if(won){ arena.append(el("div",{class:"intro",text:`🎉 نجا الجهاز! سكّرت ${fmt(score)} نافذة. اضغط «ابدأ» وتحدّى نفسك.`})); sfx.win(); }
+    else { arena.append(el("div",{class:"intro",text:"💀 الجهاز علّق… اضغط «ابدأ» وحاول مرة ثانية."})); bsod("الجهاز علّق من كثر النوافذ 😂 اضغط أي مكان وجرّب مرة ثانية"); } };
+  const start=()=>{ stopGames(); arena.innerHTML=""; score=0;open=0;timeLeft=30;every=1100;running=true; upd(); spawn();
+    gameTimers.push(setInterval(()=>{ timeLeft--; upd(); if(timeLeft<=0) end(true); },1000)); };
+  arena.append(el("div",{class:"intro",text:"النوافذ المنبثقة بتطلع بكل مكان، وكل شوي أسرع. سكّرها! إذا صارت 8 مفتوحة الجهاز يعلّق. اصمد 30 ثانية."}));
+  a.append(info,arena,el("div",{class:"center"},el("button",{class:"btn",text:"▶ ابدأ",on:{click:start}})));
+  upd();
+}
+function mem(a){
+  const icons=[["📱","جوال"],["💾","فلوبي"],["📀","سي دي"],["🖱️","ماوس"],["📟","بيجر"],["🕹️","جويستك"],["📼","شريط فيديو"],["☎️","هاتف البيت"]];
+  const cards=[...icons,...icons].sort(()=>Math.random()-.5);
+  let first=null, lock=false, moves=0, found=0;
+  const g=el("div",{class:"mem"}), info=el("p",{class:"center",role:"status",text:"طابق أغراض زمان 👀"});
+  const again=el("button",{class:"btn",text:"🔁 العب مرة ثانية",on:{click:()=>{ a.innerHTML=""; mem(a); }}}); again.hidden=true;
+  cards.forEach(([ic,name],i)=>{ const b=el("button",{text:ic,"aria-label":`بطاقة مغلقة ${fmt(i+1)}`});
+    const flip=o=>{ b.classList.toggle("open",o); b.setAttribute("aria-label",o?name:`بطاقة مغلقة ${fmt(i+1)}`); };
+    b.onclick=()=>{ if(lock||b.classList.contains("open")) return; flip(true); sfx.click();
+      if(!first){ first={flip,ic}; return; } moves++;
+      if(first.ic===ic){ found++; first=null; tone(1000,.1,"sine"); info.textContent=`👍 ${name}! المحاولات: ${fmt(moves)}`;
+        if(found===8){ info.textContent=`🏆 خلصت بـ ${fmt(moves)} محاولات! ذاكرتك أقوى من فلاش ميموري 128 ميقا`; sfx.win(); again.hidden=false; } }
+      else { lock=true; const f=first; first=null; info.textContent=`المحاولات: ${fmt(moves)}`; setTimeout(()=>{ f.flip(false); flip(false); lock=false; },750); } };
+    g.append(b); });
+  a.append(info,g,el("div",{class:"center"},again));
+}
+
+/* ---------- KEEK ---------- */
+PAGES.keek=(p)=>{
+  const CLIPS=[
+    ["#2b5876,#4e4376","🧍‍♂️🛒","ستوري تايم: رحت البقالة أشتري بيبسي ورجعت بـ 3 أكياس شبس وما جبت البيبسي 🤦‍♂️","bader_vlogs",4320],
+    ["#a8213a,#5a0f3d","👩‍🏫📵","المعلمة سحبت جوالي البلاك بيري وقعدت تقرا البي بي حقي قدام الفصل 😭 الحمدلله ما فيه شي… تقريباً","sarah.bb",8811],
+    ["#0d6b55,#13874c","🚗💨","أول مرة أسوق سيارة أبوي بالحارة.. صدمت الرصيف وقلت له «القطو هو السبب» 🐱","3bood_2009",15002],
+    ["#8a4b00,#b26a00","📞👵","جدتي تكلمني بالسبيكر وتحسب لازم تصرخ عشان يوصل الصوت للرياض 😂","nouf_vlog",22790],
+    ["#373b44,#2a5db0","💻⚡","أمي فصلت الإنترنت وأنا أحمّل لعبة 98%… لا تكلموني اليوم 💔","gamer_ksa",6034],
+    ["#7a1030,#240b36","🎤🙈","سويت كيك أغني وأنا أحسب الكاميرا طافية.. 400 واحد شافوه 🙂","lulu.keek",31207],
+  ];
+  const kk=el("div",{class:"kk"});
+  kk.append(el("header",{},el("b",{text:"keeek"}),el("span",{text:"⬇ مرّر لتحت للمقطع الثاني",style:"font-size:13px;color:#ccc"})));
+  const feed=el("div",{class:"feed"});
+  CLIPS.forEach(c=>{
+    let liked=false; const n=c[4], cm=[["first_2008","أول 😎"],["7amood","ههههههههههههه"],["xX_noura_Xx","كمّلي القصة!!"]];
+    const likeN=el("span",{text:fmt(n)}), cmN=el("span",{text:fmt(cm.length)});
+    const likeB=el("button",{text:"🤍","aria-label":"إعجاب","aria-pressed":"false",on:{click:()=>{ liked=!liked; likeB.textContent=liked?"💚":"🤍"; likeB.setAttribute("aria-pressed",liked); likeN.textContent=fmt(n+(liked?1:0)); sfx.click(); }}});
+    let panel=null;
+    const clip=el("div",{class:"clip",style:`background:linear-gradient(160deg,${c[0]})`});
+    const cmB=el("button",{text:"💬","aria-label":"التعليقات",on:{click:()=>{
+      if(panel){ panel.remove(); panel=null; return; }
+      const list=el("div",{class:"list",role:"log"}); const draw=()=>{ list.innerHTML=""; cm.forEach(([u,t])=>list.append(el("div",{},el("bdi",{dir:"ltr",style:"color:#4ad94a;font-weight:700",text:"@"+u}),"  ",t))); list.scrollTop=list.scrollHeight; }; draw();
+      const inp=el("input",{placeholder:"اكتب تعليق…","aria-label":"تعليق",maxlength:"80"});
+      const f=el("form",{},inp,el("button",{class:"btn",type:"submit",text:"نشر"}),el("button",{class:"btn",type:"button",text:"×","aria-label":"إغلاق التعليقات",on:{click:()=>{ panel.remove(); panel=null; cmB.focus(); }}}));
+      f.onsubmit=e=>{ e.preventDefault(); const t=inp.value.trim(); if(!t) return; cm.push([myName==="أنا"?"zaer_2008":myName,t]); inp.value=""; cmN.textContent=fmt(cm.length); draw(); sfx.click();
+        setTimeout(()=>{ cm.push([c[3],rand(["هههه شكراً 💚","فولو بفولو؟","تابعوني بالبي بي 😎","لا تقولون لأمي 🤫"])]); cmN.textContent=fmt(cm.length); if(panel) draw(); sfx.msg(); },1500); };
+      panel=el("div",{class:"cmts"},list,f); clip.append(panel); inp.focus(); }}});
+    const share=el("button",{text:"↪","aria-label":"أرسل بالبلوتوث",on:{click:()=>bluetooth(c[3]+".3gp")}});
+    const tsec=el("span",{text:"0:36"}); const timer=el("div",{class:"timer","aria-hidden":"true"},el("span",{class:"rec",text:"● "}),tsec);
+    clip.append(timer,el("div",{class:"scene","aria-hidden":"true",text:c[1]}),el("div",{class:"cap",text:c[2]}),el("div",{class:"user"},el("bdi",{dir:"ltr",text:"@"+c[3]})),el("div",{class:"side"},likeB,likeN,cmB,cmN,share));
+    let sec=36; gameTimers.push(setInterval(()=>{ sec=sec<=0?36:sec-1; tsec.textContent="0:"+String(sec).padStart(2,"0"); },1000));
+    feed.append(clip);
+  });
+  kk.append(feed); p.append(kk); p.style.background="#111";
+};
+
+/* bluetooth send */
+function bluetooth(file){
+  const devs=["جهاز_أبو_فهد","N95_سلطان","Nokia_7ammoody","SE_K800i_نوف"];
+  const list=el("div",{style:"display:grid;gap:6px"},el("div",{text:`إرسال «${file}» عن طريق البلوتوث إلى:`}));
+  const d=dialog("📶 البلوتوث",list,[["إلغاء"]]);
+  devs.forEach(n=>list.append(el("button",{class:"btn",text:"📱 "+n,on:{click:async()=>{
+    list.innerHTML=""; const bar=el("b"), lbl=el("div",{role:"status",text:`جاري الإرسال إلى ${n}… لا تتحرك من مكانك!`}); list.append(lbl,el("div",{class:"prog"},bar));
+    const fail=Math.random()<.55; for(let i=0;i<=99;i+=Math.random()*9+2){ bar.style.width=Math.min(99,i)+"%"; await wait(260); if(!document.body.contains(d)) return; }
+    bar.style.width="99%"; await wait(1200); if(!document.body.contains(d)) return;
+    if(fail){ lbl.textContent=`❌ فشل الإرسال عند 99%. ${n} خرج من النطاق 😩`; sfx.lose(); }
+    else { bar.style.width="100%"; lbl.textContent=`✅ وصل! ${n} قبل الملف 🎉`; S.bt++; sfx.win(); }
+  }}})));
+}
+
+/* ---------- memes & videos ---------- */
+PAGES.memes=(p)=>{
+  const VIDS=[
+    ["2yJgwwDcgV8","نيان كات","قطة بوب تارت تطير بقوس قزح وأغنية ما تطلع من راسك","3:37"],
+    ["_OBlgSz8sSM","تشارلي عضّ إصبعي","أخو يعض أخوه.. والعالم كله ضحك","0:56"],
+    ["J---aiyznGQ","قطة الكيبورد","القطة اللي تعزف لك وأنت طالع","0:54"],
+    ["2Z4m4lnjxkY","ترولولو","رجل يغني بدون كلمات بابتسامة لا تُنسى","2:39"],
+    ["9bZkp7q19f0","قانقنام ستايل","الكل رقصها، بالمدرسة وبالأعراس","4:12"],
+    ["4hpEnLtqUDg","هارلم شيك","واحد يرقص، وبعدين الكل يتجنن","0:31"],
+  ];
+  const RAGE=[
+    [["😐","أمي: لا تجلس على الكمبيوتر كثير"],["😏","أنا: بس 5 دقايق"],["🌅","(طلع الفجر)"]],
+    [["🙂","الصفحة تحمّل 1%… 2%…"],["😬","أختي ترفع سماعة البيت"],["😡","«انقطع الاتصال»"]],
+    [["📲","«شغّل البلوتوث أرسل لك مقطع»"],["⏳","يرسل… 4%"],["💀","الملف 3 ميقا. ننتظر للعيد"]],
+    [["😎","رسالتي الشخصية بالماسنجر: «البعض يفهم 💔»"],["🤔","الكل يسألني: وش فيك؟"],["😌","المهمة نجحت"]],
+  ];
+  const box=el("div",{class:"memes"});
+  box.append(el("h2",{class:"pt",text:"📺 الفيديوهات اللي الكل أرسلها لك"}));
+  const vg=el("div",{class:"mgrid"});
+  VIDS.forEach(v=>{ const th=el("button",{class:"th","aria-label":"شغّل "+v[1],style:`background-image:url(https://i.ytimg.com/vi/${v[0]}/hqdefault.jpg)`},el("i",{text:v[3]})); th.onclick=()=>playVid(v[0],v[1]);
+    vg.append(el("div",{class:"vid"},th,el("div",{class:"t"},v[1],el("small",{text:v[2]})),el("div",{class:"row"},el("button",{class:"btn",text:"▶ شغّل",on:{click:()=>playVid(v[0],v[1])}}),el("button",{class:"btn",text:"📶 أرسله بالبلوتوث",on:{click:()=>bluetooth(v[1]+".3gp")}})))); });
+  box.append(vg);
+  box.append(el("h2",{class:"pt",text:"😂 ميمز زمان"}));
+  const mg=el("div",{class:"mgrid"}); RAGE.forEach(r=>{ const c=el("div",{class:"rage"}); r.forEach(x=>c.append(el("div",{class:"p"},el("span",{class:"face","aria-hidden":"true",text:x[0]}),el("span",{text:x[1]})))); mg.append(c); }); box.append(mg);
+  box.append(el("h2",{class:"pt",text:"📟 رسائل البي بي اللي وصلتك"}));
+  const bb=el("div",{class:"bbm"});
+  ["⚠️ عاجل: البي بي بيصير بفلوس! أرسل هذي الرسالة لـ 15 شخص عشان يبقى حسابك مجاني","أرسلها لـ 10 أشخاص وبتسمع خبر حلو الليلة 🌙… وإلا","D R D R D R … ليش قريت وما رديت؟؟ 😤"].forEach(t=>bb.append(el("p",{text:t})));
+  bb.append(el("p",{},"ضيفني 😍 PIN: ",el("span",{class:"pin",text:"2A3F9C1B"})));
+  box.append(bb);
+  p.append(box);
+};
+async function playVid(id,title){
+  S.videos++;
+  $("#pl-title").textContent=title+" – مشغل الوسائط";
+  const scr=$("#pl-scr"); scr.innerHTML="";
+  const bar=el("b"), pct=el("div",{role:"status",text:"جاري التخزين المؤقت… ٠%"});
+  scr.append(el("div",{class:"buffer"},el("div",{class:"ring"}),pct,el("div",{class:"bar"},bar),el("small",{text:"جودة 240p · لا تفتح شي ثاني يثقل النت"})));
+  openApp("player"); $("#pl-buf").textContent="240p · تخزين مؤقت";
+  const token=Symbol(); scr.dataset.t=String(Math.random()); const mine=scr.dataset.t;
+  for(let i=0;i<=100;i+=Math.random()*18+6){ await wait(220); if($("#w-player").hidden||scr.dataset.t!==mine) return; bar.style.width=Math.min(100,i)+"%"; pct.textContent=`جاري التخزين المؤقت… ${fmt(Math.min(100,i|0))}%`; }
+  if(scr.dataset.t!==mine) return;
+  const f=el("iframe",{src:"https://www.youtube-nocookie.com/embed/"+id+"?autoplay=1&rel=0",allow:"autoplay; encrypted-media; fullscreen",allowfullscreen:"",title:title});
+  f.onload=()=>$("#pl-buf").textContent="يعمل الآن 🔊";
+  scr.innerHTML=""; scr.append(f);
+}
+$("#pl-stop").onclick=()=>closeWin($("#w-player"));
+
+/* ---------- phones ---------- */
+PAGES.phones=(p)=>{
+  const g=el("div",{class:"phones"});
+  const card=(year,name,desc,cls,controls,say)=>{ g.append(el("div",{class:"ph"},el("div",{class:"dev "+cls,"aria-hidden":"true"}),el("span",{class:"y",text:year}),el("h3",{text:name}),el("p",{text:desc}),...controls,say)); };
+  const say1=el("div",{class:"say",role:"status"});
+  card("2000","نوكيا 3310","ما ينكسر، والبطارية أسبوع","nk",[el("div",{class:"btns"},el("button",{class:"btn",text:"🎵 النغمة",on:{click:()=>{ melody(NOKIA); say1.textContent="🎶 تيرا رارا… تيرا رارا… 🎶"; }}}),el("button",{class:"btn",text:"🐍 الثعبان",on:{click:()=>go("games")}}))],say1);
+  const say2=el("div",{class:"say",role:"status"});
+  card("2007","نوكيا N95","كاميرا 5 ميقا وبلوتوث شغّال 24 ساعة","nk",[el("button",{class:"btn",text:"📶 شغّل البلوتوث",on:{click:()=>{
+    say2.textContent="جاري البحث عن أجهزة…";
+    setTimeout(()=>dialog("📶 ملف وارد",el("div",{text:"«جهاز_أبو_فهد» يبي يرسل لك: ضحك_موت.3gp (2.1 ميقا). تقبل؟"}),[["✅ قبول",()=>{ say2.textContent="وصل المقطع! 😂 شغّلته بالمطعم وكل الناس سمعوه"; S.bt++; sfx.win(); }],["❌ رفض",()=>{ say2.textContent="رفضته… بعدين ندمت لأن الكل يتكلم عنه 😐"; }]]),1300);
+  }}})],say2);
+  const say3=el("div",{class:"say",role:"status"});
+  card("2006","سوني إريكسون ووكمان","الأغاني والسماعة البيضاء","se",[el("button",{class:"btn",text:"🎧 شغّل",on:{click:()=>{ melody([[523,.2],[523,.2],[587,.4],[523,.4],[698,.4],[659,.8]],"triangle",.05); say3.textContent="🎧 الصوت عالي لدرجة إن كل الفصل يسمع"; }}})],say3);
+  const chat=el("div",{class:"bbchat",role:"log"},el("div",{text:"اضغط «أرسل» وشوف وش يصير…"}));
+  let bbBusy=false;
+  card("2009","بلاك بيري بولد","BBM والكيبورد الكامل","bb",[chat,el("button",{class:"btn",text:"✉ أرسل «هلا»",on:{click:async()=>{
+    if(bbBusy) return; bbBusy=true; chat.innerHTML=""; const st=el("span",{text:"✓"}); chat.append(el("div",{},"أنا: هلا ",st)); sfx.click();
+    await wait(900); st.textContent="D"; await wait(1600); st.textContent="R"; await wait(1800); chat.append(el("div",{text:"…قرا وما رد 😤 (للأبد)"})); sfx.lose(); bbBusy=false;
+  }}})],null);
+  const say5=el("div",{class:"say",role:"status"});
+  const sl=el("input",{type:"range",min:"0",max:"100",value:"0",class:"slide","aria-label":"اسحب لفتح القفل"});
+  sl.oninput=()=>{ if(+sl.value>=98){ say5.textContent="🔓 تم الفتح… البطارية 3% وطفى 🪫"; sl.value=0; sfx.click(); } };
+  card("2008","آيفون 3G","لمس كامل ومتجر تطبيقات","ip",[el("div",{class:"note",text:"اسحب لفتح القفل"}),sl],say5);
+  p.append(el("h2",{class:"pt",text:"📱 وش كان جوالك؟ جرّبه",style:"margin:16px 16px 0"}),g);
+};
+
+/* ---------- guestbook ---------- */
+const configured=GUESTBOOK_URL.startsWith("https://");
+PAGES.guest=(p)=>{
+  const st=el("div",{class:"msg",role:"status"});
+  const nm=el("input",{id:"gb-name",maxlength:"40",placeholder:"مثلاً: ~*عاشقة الذكريات*~",autocomplete:"nickname",value:myName==="أنا"?"":myName});
+  const ms=el("textarea",{id:"gb-msg",maxlength:"500",placeholder:"وش أكثر شي تذكره من إنترنت زمان؟"});
+  const hp=el("input",{id:"gb-hp",tabindex:"-1",autocomplete:"off","aria-hidden":"true",class:"sr"});
+  const btn=el("button",{class:"btn",type:"submit",text:"أرسل التوقيع ✍"});
+  const list=el("div",{class:"entries",role:"feed"},el("p",{class:"note",text:"جاري تحميل التواقيع…"}));
+  const form=el("form",{novalidate:""},el("label",{for:"gb-name",text:"الاسم المستعار"}),nm,el("label",{for:"gb-msg",text:"رسالتك"}),ms,hp,btn,st);
+  let visits=+sessGet("visitno"); if(!visits){ visits=(+localGet("visits")||0)+1; localSet("visits",visits); sessSet("visitno",visits); }
+  p.append(el("div",{class:"gb"},el("h2",{text:"✿ سجل الزوار ✿"}),el("div",{class:"counter"},"أنت الزائر رقم ",el("span",{text:String(1337+visits).padStart(6,"0")})),form,
+    configured?null:el("p",{class:"note center",text:"(وضع التجربة: التواقيع تنحفظ على جهازك بس، لين يتفعّل السجل)"}),list));
+  const renderList=data=>{ list.innerHTML=""; if(!data.length) list.append(el("p",{class:"note center",text:"ما أحد وقّع للحين. كن أول واحد! 🌹"}));
+    data.forEach(e=>list.append(el("article",{class:"entry"},el("div",{class:"h"},el("b",{text:e.name}),el("span",{text:new Date(e.time).toLocaleDateString("ar-SA")})),el("div",{class:"m",text:e.message})))); };
+  const localList=()=>{ try{ return JSON.parse(localGet("gb")||"[]"); }catch(e){ return []; } };
+  const load=async()=>{
+    if(!configured){ renderList(localList()); return; }
+    try{ renderList(await (await fetch(GUESTBOOK_URL)).json()); }
+    catch(err){ list.innerHTML=""; list.append(el("p",{class:"note",text:"تعذّر تحميل التواقيع."}),el("button",{class:"btn",text:"🔁 حاول مرة ثانية",on:{click:load}})); }
+  };
+  form.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const name=nm.value.trim(), message=ms.value.trim();
+    if(!name){ st.className="msg err"; st.textContent="اكتب اسمك المستعار أول 🙂 (أو زخرفه من «مزخرف الأسماء»)"; nm.focus(); return; }
+    if(!message){ st.className="msg err"; st.textContent="اكتب رسالة قبل لا ترسل ✍"; ms.focus(); return; }
+    if(!configured){ const l=localList(); l.unshift({name,message,time:new Date().toISOString()}); localSet("gb",JSON.stringify(l.slice(0,50))); st.className="msg ok"; st.textContent="تم! توقيعك صار في السجل 🌹"; ms.value=""; renderList(l); return; }
+    btn.disabled=true; st.className="msg"; st.textContent="جاري الإرسال…";
+    try{ const out=await (await fetch(GUESTBOOK_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({name,message,hp:hp.value})})).json();
+      if(!out.ok) throw 0; st.className="msg ok"; st.textContent="تم! توقيعك صار في السجل 🌹"; ms.value=""; toast("سجل الزوار",name+" وقّع في السجل"); load();
+    }catch(err){ st.className="msg err"; st.textContent="ما وصل التوقيع. رسالتك ما زالت مكتوبة، تأكد من الإنترنت واضغط إرسال مرة ثانية."; }
+    btn.disabled=false;
+  });
+  load();
+};
+
+go("home");
+</script>
+</body>
+</html>
